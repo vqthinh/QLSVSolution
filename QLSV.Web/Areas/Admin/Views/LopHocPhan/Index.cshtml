@@ -1,0 +1,140 @@
+﻿@using DevExtreme.AspNet.Mvc
+
+@{
+    ViewBag.Title = "Lớp Học Phần";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@(Html.DevExtreme().DataGrid()
+      .Columns(columns =>
+      {
+          columns.Add()
+              .DataField("Id")
+              .AllowFiltering(false)
+              .Caption("")
+              .CellTemplate(@<text>
+                                <a href="<%= value %>">Xem danh sách</a>
+            </text>);
+          columns.Add()
+              .DataField("MaLopHp")
+              .Caption("Mã Lớp");
+          columns.Add()
+              .DataField("Ten")
+              .Caption("Tên Lớp")
+              .Visible(false);
+          columns.Add()
+              .DataField("SoTinChi")
+              .Caption("Số Tín Chỉ")
+              .DataType(GridColumnDataType.Number);
+          columns.Add()
+              .DataField("MonHocId")
+              .Caption("Môn Học")
+              .Lookup(lookup => lookup
+                  .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetMonHoc").Key("Id"))
+                  .DisplayExpr("Ten")
+                  .ValueExpr("Id")
+              );
+          columns.Add()
+              .DataField("KyHocNamHocId")
+              .Caption("Học Kỳ")
+              .Lookup(lookup => lookup
+                  .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetHocKies").Key("Id"))
+                  .DisplayExpr("Display")
+                  .ValueExpr("Id")
+              );
+          columns.Add()
+              .DataField("NgayHoc1")
+              .Caption("Ngày Học 1")
+              .Lookup(lookup => lookup
+                  .DataSource(new JS("getNgayHoc"))
+                  .DisplayExpr("Text")
+                  .ValueExpr("Value")
+              );
+          columns.Add()
+              .DataField("NgayHoc2")
+              .Caption("Ngày Học 2")
+              .Lookup(lookup => lookup
+                  .DataSource(new JS("getNgayHoc"))
+                  .DisplayExpr("Text")
+                  .ValueExpr("Value")
+              )
+              .Visible(false);
+          columns.Add()
+              .DataField("TietHoc1")
+              .Caption("Tiết Học 1");
+          columns.Add()
+              .DataField("TietHoc2")
+              .Caption("Tiết Học 2")
+              .Visible(false);
+          columns.Add()
+              .DataField("NgayBatDau")
+              .Caption("Ngày Bắt Đầu")
+              .DataType(GridColumnDataType.Date)
+              .Visible(false);
+          columns.Add()
+              .DataField("GiaoVienId")
+              .Caption("Giáo Viên")
+              .Lookup(lookup => lookup
+                  .DataSource(d => d.WebApi().Controller("GiaoVienApi").LoadAction("Get").Key("Id"))
+                  .DisplayExpr("Ten")
+                  .ValueExpr("Id")
+              );
+          columns.Add()
+              .DataField("SoLuongChoPhep")
+              .Caption("Số Lượng Cho Phép");
+      })
+      .HeaderFilter(headerFilter => headerFilter.Visible(true))
+      .Paging(paging => paging.PageSize(5))
+      .Pager(pager =>
+      {
+          pager.ShowInfo(true);
+          pager.InfoText("Trang {0}({1} trang)");
+      })
+      .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("Get").Key("Id"))
+      .ShowBorders(true)
+      .OnEditorPreparing("onEditorPreparing")
+      .Editing(editing =>
+      {
+          editing.Mode(GridEditMode.Form);
+          editing.AllowAdding(true);
+          editing.AllowUpdating(true);
+          editing.AllowDeleting(true);
+          editing.Texts(t =>
+          {
+              t.AddRow("Thêm mới");
+              t.EditRow("Sửa");
+              t.DeleteRow("Xóa");
+              t.CancelAllChanges("Hủy bỏ thay đổi");
+              t.CancelRowChanges("Hủy bỏ");
+              t.ConfirmDeleteMessage("Bạn có muốn xóa không?");
+              t.SaveAllChanges("Lưu thay đổi");
+              t.SaveRowChanges("Xác nhận");
+          });
+      })
+      .ColumnAutoWidth(true)
+      .ColumnChooser(c =>
+      {
+          c.Enabled(true);
+          c.Title("Chọn cột hiển thị");
+          c.EmptyPanelText("Kéo cột vào để ẩn đi");
+      })
+)
+
+
+<script>
+    onEditorPreparing = function(e) {
+        if (e.parentType === "dataRow" && e.dataField === "MonHocId") {
+            e.editorOptions.placeholder = "Chọn Môn Học";
+        } else if (e.parentType === "dataRow" && e.dataField === "HocKyId") {
+            e.editorOptions.placeholder = "Chọn Học Kỳ";
+        } else if (e.parentType === "dataRow" && e.dataField === "NgayHoc1") {
+            e.editorOptions.placeholder = "Chọn Ngày Học 1";
+        } else if (e.parentType === "dataRow" && e.dataField === "NgayHoc2") {
+            e.editorOptions.placeholder = "Chọn Ngày Học 2";
+        } else if (e.parentType === "dataRow" && e.dataField === "GiaoVienId") {
+            e.editorOptions.placeholder = "Chọn Giáo Viên";
+        }
+
+    }   
+</script>

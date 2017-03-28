@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="~/Content/templates/admin/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/templates/admin/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link href="~/Content/css/dx.common.css" rel="stylesheet" />
+    <link href="~/Content/css/dx.light.css" rel="stylesheet" />
+    <!-- page specific plugin styles -->
+    <!-- text fonts -->
+    <link rel="stylesheet" href="~/Content/templates/admin/css/fonts.googleapis.com.css" />
+
+    <script src="~/Content/templates/admin/js/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/app.js"></script>
+    <script src="~/Content/js/dx.all.js"></script>
+    <script src="~/Content/js/dx.aspnet.data.js"></script>
+    <script src="~/Content/js/dx.aspnet.mvc.js"></script>
+    <script src="~/Content/js/cldr.js"></script>
+    <script src="~/Content/js/cldr/event.js"></script>
+    <script src="~/Content/js/cldr/supplemental.js"></script>
+    <script src="~/Content/js/cldr/unresolved.js"></script>
+    <script src="~/Content/js/underscore.js"></script>
+    <!-- ace styles -->
+    <link rel="stylesheet" href="~/Content/templates/admin/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="~/Content/templates/admin/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="~/Content/templates/admin/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="~/Content/templates/admin/css/ace-rtl.min.css" />
+    <link href="~/Content/css/vqthinh.css" rel="stylesheet" />
+    <link href="~/Content/css/pntArtifact.css" rel="stylesheet" />
+    <link href="~/Content/lib/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="~/Content/templates/admin/css/ace-ie.min.css" />
+    <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- ace settings handler -->
+    <script src="~/Content/templates/admin/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+    <script src="~/Content/templates/admin/js/html5shiv.min.js"></script>
+    <script src="~/Content/templates/admin/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="no-skin">
+    <div class="overlay-div-single" id="divOverlay" style="display: none">
+        <div class="div-over"></div>
+        <div class="blink_me">Vui lòng chờ, hệ thống đang xử lý.</div>
+        <img src="~/Content/images/loading.gif" style="width: 64px" />
+    </div>
+    <div id="navbar" class="navbar navbar-default ace-save-state navbar-fixed-top">
+        <div class="navbar-container ace-save-state" id="navbar-container">
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                <span class="sr-only">Toggle sidebar</span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="navbar-header pull-left">
+                <a href="/Admin/Artifact" class="navbar-brand">
+                    <small>
+                        <img src="~/Content/images/campamb.png" width="44" height="44" style="margin-top:-11px; margin-bottom: -11px;padding:4px" />
+                        <span style="text-transform:uppercase;font-weight:600">Quản lý Sinh Viên</span>
+                    </small>
+                </a>
+            </div>
+
+            <!--Login-->
+            @{
+                Html.RenderAction("_LoginInfo","SinhVien");
+            }
+        </div><!-- /.navbar-container -->
+    </div>
+
+    <div class="main-container ace-save-state" id="main-container">
+        <script type="text/javascript">
+            try {
+                ace.settings.loadState('main-container');
+            } catch (e) {
+            }
+        </script>
+
+        @Html.Partial("_LeftMenu")
+
+        <div class="main-content">
+            <div class="main-content-inner">
+                <div class="breadcrumbs ace-save-state breadcrumbs-fixed" id="breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li class="active"><i class="ace-icon fa @ViewBag.MenuIcon"></i> <span style="font-size: 14px"> @ViewBag.Menu</span></li>
+                    </ul><!-- /.breadcrumb -->
+                </div>
+
+                <div class="page-content">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @RenderBody()
+                            <!-- PAGE CONTENT ENDS -->
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.page-content -->
+            </div>
+        </div><!-- /.main-content -->
+
+        <div class="footer">
+            <div class="footer-inner">
+                <div class="footer-content">
+                    <span class="bigger-120">
+                        Vĩnh Quốc Thịnh - 12T1
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+    </div><!-- /.main-container -->
+    <!-- basic scripts -->
+
+
+    <!--[if IE]>
+        <script src="~/Content/templates/admin/js/jquery-1.11.3.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement)
+            document.write("<script src='~/Content/templates/admin/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="~/Content/templates/admin/js/bootstrap.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+    <!--[if lte IE 8]>
+        <script src="~/Content/templates/admin/js/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="~/Content/templates/admin/js/jquery-ui.custom.min.js"></script>
+    <script src="~/Content/templates/admin/js/jquery.ui.touch-punch.min.js"></script>
+
+    <!--Table-->
+    <script src="~/Content/templates/admin/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/templates/admin/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/templates/admin/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/templates/admin/js/buttons.flash.min.js"></script>
+    <script src="~/Content/templates/admin/js/buttons.html5.min.js"></script>
+    <script src="~/Content/templates/admin/js/buttons.print.min.js"></script>
+    <script src="~/Content/templates/admin/js/buttons.colVis.min.js"></script>
+    <script src="~/Content/templates/admin/js/dataTables.select.min.js"></script>
+    <script src="~/Content/lib/ckeditor/ckeditor.js"></script>
+    <!-- ace scripts -->
+    <script src="~/Content/templates/admin/js/ace-elements.min.js"></script>
+    <script src="~/Content/templates/admin/js/ace.min.js"></script>
+
+    <script src="~/Content/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/Content/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Content/js/Global.js"></script>
+    <script src="~/Content/js/fnSetFilteringDelay.js"></script>
+    <script src="~/Content/lib/Stuk-jszip-5250332/dist/jszip.js"></script>
+    <script src="~/Content/lib/Stuk-jszip-5250332/dist/jszip.min.js"></script>
+    <script src="~/Content/lib/Stuk-jszip-5250332/vendor/FileSaver.js"></script>
+    <script src="~/Content/lib/fancybox/source/jquery.fancybox.js"></script>
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+        jQuery(function($) {
+
+            $('.dialogs,.comments')
+                .ace_scroll({
+                    size: 300
+                });
+
+
+            //Android's default browser somehow is confused when tapping on label which will lead to dragging the task
+            //so disable dragging when clicking on label
+            var agent = navigator.userAgent.toLowerCase();
+            if (ace.vars['touch'] && ace.vars['android']) {
+                $('#tasks')
+                    .on('touchstart',
+                        function(e) {
+                            var li = $(e.target).closest('#tasks li');
+                            if (li.length == 0) return;
+                            var label = li.find('label.inline').get(0);
+                            if (label == e.target || $.contains(label, e.target)) e.stopImmediatePropagation();
+                        });
+            }
+
+            $('#tasks')
+                .sortable({
+                        opacity: 0.8,
+                        revert: true,
+                        forceHelperSize: true,
+                        placeholder: 'draggable-placeholder',
+                        forcePlaceholderSize: true,
+                        tolerance: 'pointer',
+                        stop: function(event, ui) {
+                            //just for Chrome!!!! so that dropdowns on items don't appear below other items after being moved
+                            $(ui.item).css('z-index', 'auto');
+                        }
+                    }
+                );
+            $('#tasks').disableSelection();
+            $('#tasks input:checkbox')
+                .removeAttr('checked')
+                .on('click',
+                    function() {
+                        if (this.checked) $(this).closest('li').addClass('selected');
+                        else $(this).closest('li').removeClass('selected');
+                    });
+
+
+            //show the dropdowns on top or bottom depending on window height and menu position
+            $('#task-tab .dropdown-hover')
+                .on('mouseenter',
+                    function(e) {
+                        var offset = $(this).offset();
+
+                        var $w = $(window)
+                        if (offset.top > $w.scrollTop() + $w.innerHeight() - 100)
+                            $(this).addClass('dropup');
+                        else $(this).removeClass('dropup');
+                    });
+
+        });
+        var errorTemp = '@ViewBag.checkLogin';
+        if (errorTemp !== '') {
+            window.location.href = "/Admin/Users/Logout";
+        }
+    </script>
+@*@if (@TempData[QSM.Language.Resource.ErrorTemp] != null)
+    {
+        <script>
+        $('#myModal').modal('show');
+        </script>
+    }*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

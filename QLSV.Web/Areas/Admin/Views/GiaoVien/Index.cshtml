@@ -1,0 +1,114 @@
+﻿@using DevExtreme.AspNet.Mvc
+@{
+    ViewBag.Title = "Quản lý giáo viên";
+    Layout = "../Shared/_AdminLayout.cshtml";
+}
+
+
+@(Html.DevExtreme().DataGrid()
+      .Columns(columns =>
+      {
+          columns.Add()
+              .DataField("MaGv")
+              .Caption("Mã GV");
+          columns.Add()
+              .DataField("HoDem")
+              .Caption("Họ Đệm");
+          columns.Add()
+              .DataField("Ten")
+              .Caption("Tên");
+          columns.Add()
+              .Caption("Ngày Sinh")
+              .DataField("NgaySinh")
+              .DataType(GridColumnDataType.Date);
+          columns.Add()
+              .DataField("HoKhau")
+              .Caption("Hộ Khẩu")
+              .Visible(false);
+          columns.Add()
+              .DataField("QuocTich")
+              .Caption("Quốc Tịch")
+              .Lookup(lookup => lookup
+                  .DataSource(new JS("getNationalites"))
+              )
+              .Visible(false);
+          columns.Add()
+              .DataField("DiaChi")
+              .Caption("Địa Chỉ")
+              .Visible(false);
+          columns.Add()
+              .DataField("NoiSinh")
+              .Caption("Nơi Sinh")
+              .Visible(false);
+          columns.Add()
+              .DataField("DanToc")
+              .Caption("Dân Tộc")
+              .Visible(false);
+          columns.Add()
+              .DataField("DienThoai")
+              .Caption("Điện Thoại")
+              .Visible(false);
+          columns.Add()
+              .DataField("Email")
+              .ValidationRules(rules => { rules.AddEmail().Message("Email sai định dạng"); })
+              .Visible(false);
+          columns.Add()
+              .DataField("Cmnd")
+              .Caption("Số CMND")
+              .Visible(false);
+          columns.Add()
+              .DataField("NgayCap")
+              .Caption("Ngày Cấp")
+              .DataType(GridColumnDataType.Date)
+              .Visible(false);
+          columns.Add()
+              .DataField("NoiCap")
+              .Caption("Nơi Cấp")
+              .Visible(false);
+          columns.Add()
+              .DataField("GioiTinh")
+              .Caption("Giới Tính")
+              .Visible(false);
+      })
+      .HeaderFilter(headerFilter => headerFilter.Visible(true))
+      .Paging(paging => paging.PageSize(3))
+      .Pager(pager =>
+      {
+          pager.ShowInfo(true);
+          pager.InfoText("Trang {0}({1} trang)");
+      })
+      .DataSource(d => d.WebApi().Controller("GiaoVienApi").Key("Id"))
+      .ShowBorders(true)
+      .Editing(editing =>
+      {
+          editing.Mode(GridEditMode.Form);
+          editing.AllowUpdating(true);
+          editing.AllowAdding(true);
+          editing.AllowDeleting(true);
+          editing.Texts(t =>
+          {
+              t.AddRow("Thêm mới");
+              t.EditRow("Sửa");
+              t.DeleteRow("Xóa");
+              t.CancelAllChanges("Hủy bỏ thay đổi");
+              t.CancelRowChanges("Hủy bỏ");
+              t.ConfirmDeleteMessage("Bạn có muốn xóa không?");
+              t.SaveAllChanges("Lưu thay đổi");
+              t.SaveRowChanges("Xác nhận");
+          });
+      })
+      .ColumnAutoWidth(true)
+      .ColumnChooser(c =>
+      {
+          c.Enabled(true);
+          c.Title("Chọn cột hiển thị");
+      })
+)
+
+<script>
+    getNationalites = function() {
+        return nationalities;
+    }
+</script>
+
+

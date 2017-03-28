@@ -1,0 +1,52 @@
+﻿@using DevExtreme.AspNet.Mvc
+
+@{
+    ViewBag.Title = "Môn học";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@(Html.DevExtreme().DataGrid()
+      .Columns(columns =>
+      {
+          columns.Add()
+              .DataField("MaMonHoc")
+              .Caption("Mã Môn Học");
+          columns.Add()
+             .DataField("Ten")
+             .Caption("Tên Môn Học");
+      })
+      .HeaderFilter(headerFilter => headerFilter.Visible(true))
+      .Paging(paging => paging.PageSize(5))
+      .Pager(pager =>
+      {
+          pager.ShowInfo(true);
+          pager.InfoText("Trang {0}({1} trang)");
+      })
+      .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetMonHoc").InsertAction("PostMonHoc").Key("Id"))
+      .ShowBorders(true)
+      .Editing(editing =>
+      {
+          editing.Mode(GridEditMode.Form);
+          editing.AllowAdding(true);
+          editing.AllowUpdating(true);
+          editing.Texts(t =>
+          {
+              t.AddRow("Thêm mới");
+              t.EditRow("Sửa");
+              t.DeleteRow("Xóa");
+              t.CancelAllChanges("Hủy bỏ thay đổi");
+              t.CancelRowChanges("Hủy bỏ");
+              t.ConfirmDeleteMessage("Bạn có muốn xóa không?");
+              t.SaveAllChanges("Lưu thay đổi");
+              t.SaveRowChanges("Xác nhận");
+          });
+      })
+      .ColumnAutoWidth(true)
+      .ColumnChooser(c =>
+      {
+          c.Enabled(true);
+          c.Title("Chọn cột hiển thị");
+          c.EmptyPanelText("Kéo cột vào để ẩn đi");
+      })
+)
