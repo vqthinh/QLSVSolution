@@ -23,5 +23,10 @@ namespace QLSV.Entities.Models
         public decimal? DiemCk2 { get; set; }
         [Column("deleted")]
         public bool? Deleted { get; set; }
+
+        [ForeignKey("LopHocPhanId")]
+        public virtual LopHocPhan LopHocPhan { get; set; }
+        [ForeignKey("SinhVienId")]
+        public virtual SinhVien SinhVien { get; set; }
     }
 }

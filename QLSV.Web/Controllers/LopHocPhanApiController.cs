@@ -98,5 +98,29 @@ namespace QLSV.Web.Controllers
 
             return Request.CreateResponse("Không thể cập nhật");
         }
+
+        [HttpGet]
+        public HttpResponseMessage GetDanhSachSinhVien(DataSourceLoadOptions loadOptions,int id)
+        {
+            var obj = DataSourceLoader.Load(_lopHocPhanService.GetDanhSachSinhVien(id), loadOptions);
+            return Request.CreateResponse(obj);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetSinhVienToAdd(DataSourceLoadOptions loadOptions,int id)
+        {
+            var obj = DataSourceLoader.Load(_lopHocPhanService.GetSinhVienToAdd(id), loadOptions);
+            return Request.CreateResponse(obj);
+        }
+
+        [HttpPost]
+        public IHttpActionResult AddSinhVien(int id,int[] keys)
+        {
+            if (_lopHocPhanService.AddSinhVienToLopHp(id, keys))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
     }
 }

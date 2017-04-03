@@ -33,5 +33,25 @@ namespace QLSV.Services.Services
         {
             return _lopHocPhanRepository.GetHocKies();
         }
+
+        public IList<LopHocPhanSinhVien> GetDanhSachSinhVien(int id)
+        {
+            return _lopHocPhanRepository.GetDanhSachSinhVien(id);
+        }
+
+        public IList<SinhVien> GetSinhVienToAdd(int id)
+        {
+            return _lopHocPhanRepository.GetSinhVienToAdd(id);
+        }
+
+        public bool AddSinhVienToLopHp(int id, int[] keys)
+        {
+            foreach (var key in keys)
+            {
+                if (!_lopHocPhanRepository.AddSvToLopHp(id, key)) return false;
+            }
+            UnitOfWork.SaveChanges();
+            return true;
+        }
     }
 }
