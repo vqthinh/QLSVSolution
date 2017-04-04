@@ -7,34 +7,58 @@
 
 
 @(Html.DevExtreme().DataGrid()
-        .ID("gridDanhSach")
+      .ID("gridDanhSach")
       .Columns(columns =>
       {
           columns.Add()
-           .DataField("SinhVien.MaSv")
-           .Caption("Mã Sinh Viên");
+              .DataField("SinhVien.MaSv")
+              .Caption("Mã Sinh Viên")
+              .AllowEditing(false);
           columns.Add()
-          .DataField("SinhVien.Lop.Ten")
-          .Caption("Lớp SH");
+              .DataField("SinhVien.Lop.Ten")
+              .Caption("Lớp SH")
+              .AllowEditing(false);
           columns.Add()
-            .DataField("SinhVien.HoDem")
-            .Caption("Họ Đệm");
+              .DataField("SinhVien.HoDem")
+              .Caption("Họ Đệm")
+              .AllowEditing(false);
           columns.Add()
               .DataField("SinhVien.Ten")
-              .Caption("Tên");
-
+              .Caption("Tên")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SinhVien.NgaySinh")
+              .Caption("Ngày Sinh")
+              .DataType(GridColumnDataType.Date)
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("DiemCc")
+              .Caption("Điểm chuyên cần")
+              .DataType(GridColumnDataType.Number)
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+          columns.Add()
+              .DataField("DiemGk")
+              .Caption("Điểm giữa kì")
+              .DataType(GridColumnDataType.Number)
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+          columns.Add()
+              .DataField("DiemCk1")
+              .Caption("Điểm thực hành")
+              .DataType(GridColumnDataType.Number)
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+          columns.Add()
+              .DataField("DiemCk2")
+              .Caption("Điểm lý thuyết")
+              .DataType(GridColumnDataType.Number)
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
       })
       .HeaderFilter(headerFilter => headerFilter.Visible(true))
-      .Paging(paging => paging.PageSize(5))
-      .Pager(pager =>
-      {
-          pager.ShowInfo(true);
-          pager.InfoText("Trang {0}({1} trang)");
-      })
-      .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetDanhSachSinhVien").LoadParams(new { id = new JS("returnId") }).InsertAction("PostMonHoc").Key("Id"))
+      .DataSource(d => d.WebApi().Controller("LopHocPhanSinhVienApi").LoadAction("GetDanhSachSinhVien").UpdateAction("Put").LoadParams(new {id = new JS("returnId")}).Key("Id"))
       .ShowBorders(true)
       .Editing(editing =>
       {
+          editing.AllowUpdating(true);
+          editing.Mode(GridEditMode.Batch);
           editing.Texts(t =>
           {
               t.AddRow("Thêm mới");
@@ -59,7 +83,7 @@
     function getUrlVars() {
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
-            function (m, key, value) {
+            function(m, key, value) {
                 vars[key] = value;
             });
         return vars;
@@ -70,7 +94,7 @@
     };
 </script>
 <div style="margin-top: 20px">
-    <button id="btnAdd" onclick="btnAddClick()" class="btn btn-primary" style="float:left" data-toggle="modal" data-target="#myModal">Thêm sinh viên</button>
+    <button id="btnAdd" onclick="btnAddClick()" class="btn btn-primary" style="float: left" data-toggle="modal" data-target="#myModal">Thêm sinh viên</button>
 </div>
 <script>
     function btnAddClick() {
@@ -79,221 +103,218 @@
     }
 </script>
 <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+<div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Thêm sinh viên cho lớp học phần</h4>
-            </div>
-            <div class="modal-body">
-                @(Html.DevExtreme().DataGrid()
-                      .ID("gridSinhVien")
-                      .Columns(columns =>
-                      {
-                          columns.Add()
-                              .DataField("MaSv")
-                              .Caption("Mã SV");
-                          columns.Add()
-                              .DataField("HoDem")
-                              .Caption("Họ Đệm");
-                          columns.Add()
-                              .DataField("Ten")
-                              .Caption("Tên");
-                          columns.Add()
-                              .DataField("KhoaHocId")
-                              .Caption("Khóa Học")
-                              .Lookup(lookup => lookup
-                                  .DataSource(d => d.WebApi().Controller("SinhVienApi").LoadAction("GetKhoaHoc").Key("Id"))
-                                  .DisplayExpr("Ten")
-                                  .ValueExpr("Id")
-                              );
-                          columns.Add()
-                              .DataField("KhoaId")
-                              .Caption("Khoa")
-                              .Lookup(lookup => lookup
-                                  .DataSource(d => d.WebApi().Controller("SinhVienApi").LoadAction("GetKhoa").Key("Id"))
-                                  .DisplayExpr("Ten")
-                                  .ValueExpr("Id")
-                              )
-                              .SetCellValue("loadKhoa");
-                          columns.Add()
-                              .DataField("LopHocId")
-                              .Caption("Lớp")
-                              .Lookup(lookup => lookup
-                                  .DataSource(d => d.WebApi().Controller("SinhVienApi").LoadAction("GetLop").LoadParams(new { id = new JS("khoaId") }).Key("Id"))
-                                  .DisplayExpr("Ten")
-                                  .ValueExpr("Id")
-                              );
-                          columns.Add()
-                              .Caption("Ngày Sinh")
-                              .DataField("NgaySinh")
-                              .DataType(GridColumnDataType.Date);
-                          columns.Add()
-                              .DataField("HoKhau")
-                              .Caption("Hộ Khẩu")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("QuocTich")
-                              .Caption("Quốc Tịch")
-                              .Lookup(lookup => lookup
-                                  .DataSource(new JS("getNationalites"))
-                              )
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("DiaChi")
-                              .Caption("Địa Chỉ")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("NoiSinh")
-                              .Caption("Nơi Sinh")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("DanToc")
-                              .Caption("Dân Tộc")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("DienThoai")
-                              .Caption("Điện Thoại")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("Email")
-                              .ValidationRules(rules => { rules.AddEmail().Message("Email sai định dạng"); })
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("Cmnd")
-                              .Caption("Số CMND")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("NgayCap")
-                              .Caption("Ngày Cấp")
-                              .DataType(GridColumnDataType.Date)
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("NoiCap")
-                              .Caption("Nơi Cấp")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("HoTenCha")
-                              .Caption("Họ Tên Cha")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("DienThoaiCha")
-                              .Caption("Điện Thoại Cha")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("HoTenMe")
-                              .Caption("Họ Tên Mẹ")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("DienThoaiMe")
-                              .Caption("Điện Thoại Mẹ")
-                              .Visible(false);
-                          columns.Add()
-                              .DataField("GioiTinh")
-                              .Caption("Giới Tính")
-                              .Visible(false);
-                      })
-                      .Selection(s => s
-                          .Mode(SelectionMode.Multiple)
-                          .ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.Always))
-                      .HeaderFilter(headerFilter => headerFilter.Visible(true))
-                      .OnEditorPreparing("onEditorPreparing")
-                      .Paging(paging => paging.PageSize(3))
-                      .Pager(pager =>
-                      {
-                          pager.ShowInfo(true);
-                          pager.InfoText("Trang {0}({1} trang)");
-                      })
-                      .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetSinhVienToAdd").LoadParams(new {id = new JS("lopHocPhanId")}).Key("Id"))
-                      .ShowBorders(true)
-                      .Editing(editing =>
-                      {
-                          editing.Texts(t =>
-                          {
-                              t.AddRow("Thêm mới");
-                              t.EditRow("Sửa");
-                              t.DeleteRow("Xóa");
-                              t.CancelAllChanges("Hủy bỏ thay đổi");
-                              t.CancelRowChanges("Hủy bỏ");
-                              t.ConfirmDeleteMessage("Bạn có muốn xóa không?");
-                              t.SaveAllChanges("Lưu thay đổi");
-                              t.SaveRowChanges("Xác nhận");
-                          });
-                      })
-                      .ColumnAutoWidth(false)
-                      .ColumnChooser(c =>
-                      {
-                          c.Enabled(true);
-                          c.Title("Chọn cột hiển thị");
-                      }))
-                <script>
-                    var id = 0;
-                    loadKhoa = function(rowData, value) {
-                        id = value;
-                        rowData.LopHocId = null;
-                        this.defaultSetCellValue(rowData, value);
-                    }
-                    khoaId = function() {
-                        return id;
-                    }
-                    lopHocPhanId = function() {
-                        return getUrlParameter('id');
-                    };
-                    onEditorPreparing = function(e) {
-                        if (e.parentType === "dataRow" && e.dataField === "KhoaId") {
-                            e.editorOptions.placeholder = "Chọn Khoa";
-                        } else if (e.parentType === "dataRow" && e.dataField === "LopHocId") {
-                            e.editorOptions.placeholder = "Chọn Lớp";
-                        } else if (e.parentType === "dataRow" && e.dataField === "QuocTich") {
-                            e.editorOptions.placeholder = "Chọn Quốc Tịch";
-                        } else if (e.parentType === "dataRow" && e.dataField === "KhoaHocId") {
-                            e.editorOptions.placeholder = "Chọn Khóa Học";
-                        }
+<!-- Modal content-->
+<div class="modal-content">
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Thêm sinh viên cho lớp học phần</h4>
+</div>
+<div class="modal-body">
+    @(Html.DevExtreme().DataGrid()
+          .ID("gridSinhVien")
+          .Columns(columns =>
+          {
+              columns.Add()
+                  .DataField("MaSv")
+                  .Caption("Mã SV");
+              columns.Add()
+                  .DataField("HoDem")
+                  .Caption("Họ Đệm");
+              columns.Add()
+                  .DataField("Ten")
+                  .Caption("Tên");
+              columns.Add()
+                  .DataField("KhoaHocId")
+                  .Caption("Khóa Học")
+                  .Lookup(lookup => lookup
+                      .DataSource(d => d.WebApi().Controller("SinhVienApi").LoadAction("GetKhoaHoc").Key("Id"))
+                      .DisplayExpr("Ten")
+                      .ValueExpr("Id")
+                  );
+              columns.Add()
+                  .DataField("KhoaId")
+                  .Caption("Khoa")
+                  .Lookup(lookup => lookup
+                      .DataSource(d => d.WebApi().Controller("SinhVienApi").LoadAction("GetKhoa").Key("Id"))
+                      .DisplayExpr("Ten")
+                      .ValueExpr("Id")
+                  )
+                  .SetCellValue("loadKhoa");
+              columns.Add()
+                  .DataField("LopHocId")
+                  .Caption("Lớp")
+                  .Lookup(lookup => lookup
+                      .DataSource(d => d.WebApi().Controller("SinhVienApi").LoadAction("GetLop").LoadParams(new {id = new JS("khoaId")}).Key("Id"))
+                      .DisplayExpr("Ten")
+                      .ValueExpr("Id")
+                  );
+              columns.Add()
+                  .Caption("Ngày Sinh")
+                  .DataField("NgaySinh")
+                  .DataType(GridColumnDataType.Date);
+              columns.Add()
+                  .DataField("HoKhau")
+                  .Caption("Hộ Khẩu")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("QuocTich")
+                  .Caption("Quốc Tịch")
+                  .Lookup(lookup => lookup
+                      .DataSource(new JS("getNationalites"))
+                  )
+                  .Visible(false);
+              columns.Add()
+                  .DataField("DiaChi")
+                  .Caption("Địa Chỉ")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("NoiSinh")
+                  .Caption("Nơi Sinh")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("DanToc")
+                  .Caption("Dân Tộc")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("DienThoai")
+                  .Caption("Điện Thoại")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("Email")
+                  .ValidationRules(rules => { rules.AddEmail().Message("Email sai định dạng"); })
+                  .Visible(false);
+              columns.Add()
+                  .DataField("Cmnd")
+                  .Caption("Số CMND")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("NgayCap")
+                  .Caption("Ngày Cấp")
+                  .DataType(GridColumnDataType.Date)
+                  .Visible(false);
+              columns.Add()
+                  .DataField("NoiCap")
+                  .Caption("Nơi Cấp")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("HoTenCha")
+                  .Caption("Họ Tên Cha")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("DienThoaiCha")
+                  .Caption("Điện Thoại Cha")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("HoTenMe")
+                  .Caption("Họ Tên Mẹ")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("DienThoaiMe")
+                  .Caption("Điện Thoại Mẹ")
+                  .Visible(false);
+              columns.Add()
+                  .DataField("GioiTinh")
+                  .Caption("Giới Tính")
+                  .Visible(false);
+          })
+          .Selection(s => s
+              .Mode(SelectionMode.Multiple)
+              .ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.Always))
+          .HeaderFilter(headerFilter => headerFilter.Visible(true))
+          .OnEditorPreparing("onEditorPreparing")
+          .Paging(paging => paging.PageSize(3))
+          .Pager(pager =>
+          {
+              pager.ShowInfo(true);
+              pager.InfoText("Trang {0}({1} trang)");
+          })
+          .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetSinhVienToAdd").LoadParams(new {id = new JS("lopHocPhanId")}).Key("Id"))
+          .ShowBorders(true)
+          .Editing(editing =>
+          {
+              editing.Texts(t =>
+              {
+                  t.AddRow("Thêm mới");
+                  t.EditRow("Sửa");
+                  t.DeleteRow("Xóa");
+                  t.CancelAllChanges("Hủy bỏ thay đổi");
+                  t.CancelRowChanges("Hủy bỏ");
+                  t.ConfirmDeleteMessage("Bạn có muốn xóa không?");
+                  t.SaveAllChanges("Lưu thay đổi");
+                  t.SaveRowChanges("Xác nhận");
+              });
+          })
+          .ColumnAutoWidth(false)
+          .ColumnChooser(c =>
+          {
+              c.Enabled(true);
+              c.Title("Chọn cột hiển thị");
+          }))
+    <script>
+        var id = 0;
+        loadKhoa = function(rowData, value) {
+            id = value;
+            rowData.LopHocId = null;
+            this.defaultSetCellValue(rowData, value);
+        }
+        khoaId = function() {
+            return id;
+        }
+        lopHocPhanId = function() {
+            return getUrlParameter('id');
+        };
+        onEditorPreparing = function(e) {
+            if (e.parentType === "dataRow" && e.dataField === "KhoaId") {
+                e.editorOptions.placeholder = "Chọn Khoa";
+            } else if (e.parentType === "dataRow" && e.dataField === "LopHocId") {
+                e.editorOptions.placeholder = "Chọn Lớp";
+            } else if (e.parentType === "dataRow" && e.dataField === "QuocTich") {
+                e.editorOptions.placeholder = "Chọn Quốc Tịch";
+            } else if (e.parentType === "dataRow" && e.dataField === "KhoaHocId") {
+                e.editorOptions.placeholder = "Chọn Khóa Học";
+            }
 
-                    }
-                    getNationalites = function() {
-                        return nationalities;
-                    }
-                </script>
-                    <button id="btnAddSv" onclick="btnAddSvClick()" style="margin-top: 10px" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Thêm</button>
-                <script>
-                    function btnAddSvClick() {
-                        var dataGrid = $('#gridSinhVien').dxDataGrid('instance');
-                        var keys = dataGrid.getSelectedRowKeys();
-                        alert(keys);
+        }
+        getNationalites = function() {
+            return nationalities;
+        }
+    </script>
+    <button id="btnAddSv" onclick="btnAddSvClick()" style="margin-top: 10px" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Thêm</button>
+    <script>
+        function btnAddSvClick() {
+            var dataGrid = $('#gridSinhVien').dxDataGrid('instance');
+            var keys = dataGrid.getSelectedRowKeys();
 
-                        $.ajax(
-                        {
-                            type: "POST", //HTTP POST Method  
-                            url: "/Admin/LopHocPhan/AddSinhVien", // Controller/View   
-                            data: { //Passing data  
-                                id: returnId,
-                                keys: keys
-                            },
-                            success: function (data) {
-                                debugger;
-                                var dataGrid = $("#gridSinhVien").dxDataGrid("instance");
-                                dataGrid.refresh();
-                                dataGrid.clearFilter();
-                                var dataGrid2 = $("#gridDanhSach").dxDataGrid("instance");
-                                dataGrid2.refresh();
-                            }
-                        });
-                    }
-                </script>
-             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
+            $.ajax(
+            {
+                type: "POST", //HTTP POST Method
+                url: "/Admin/LopHocPhan/AddSinhVien", // Controller/View
+                data: { //Passing data
+                    id: returnId,
+                    keys: keys
+                },
+                success: function(data) {
+                    debugger;
+                    var dataGrid = $("#gridSinhVien").dxDataGrid("instance");
+                    dataGrid.refresh();
+                    dataGrid.clearFilter();
+                    var dataGrid2 = $("#gridDanhSach").dxDataGrid("instance");
+                    dataGrid2.refresh();
+                }
+            });
+        }
+    </script>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+</div>
 
-    </div>
+</div>
 </div>
 
 <style>
-    .modal-dialog {
-        width: 1200px !important;    
-    }
+    .modal-dialog { width: 1200px !important; }
 </style>

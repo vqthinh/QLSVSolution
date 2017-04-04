@@ -43,6 +43,32 @@ namespace QLSV.Web.Controllers
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Mã môn học đã tồn tại");
         }
 
+        [HttpPut]
+        public HttpResponseMessage PutMonHoc(FormDataCollection form)
+        {
+            var key = Convert.ToInt32(form.Get("key"));
+            var values = form.Get("values");
+
+            var monHoc = _lopHocPhanService.GetMonHocById(key);
+            JsonConvert.PopulateObject(values, monHoc);
+
+
+            if (_lopHocPhanService.UpdateMonHoc(monHoc))
+            {
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+
+            return Request.CreateResponse("Không thể cập nhật");
+        }
+
+        [HttpDelete]
+        public void DeleteMonHoc(FormDataCollection form)
+        {
+            var key = Convert.ToInt32(form.Get("key"));
+
+            _lopHocPhanService.DeleteMonHoc(key);
+        }
+
         [HttpGet]
         public HttpResponseMessage GetHocKies(DataSourceLoadOptions loadOptions)
         {

@@ -72,6 +72,9 @@ namespace QLSV.Repositories.Repositories
                 case "LOPHOCPHAN":
                     entityRepository = new LopHocPhanRepository(_dataContext);
                     break;
+                case "LOPHOCPHANSINHVIEN":
+                    entityRepository = new LopHocPhanSinhVienRepository(_dataContext);
+                    break;
             }
 
             _repositories.Add(entityType, entityRepository);

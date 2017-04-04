@@ -53,5 +53,31 @@ namespace QLSV.Services.Services
             UnitOfWork.SaveChanges();
             return true;
         }
+
+        public bool UpdateMonHoc(MonHoc monHoc)
+        {
+            if (_lopHocPhanRepository.UpdateMonHoc(monHoc))
+            {
+                UnitOfWork.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public MonHoc GetMonHocById(int id)
+        {
+            return _lopHocPhanRepository.GetMonHocById(id);
+        }
+
+        public bool DeleteMonHoc(int id)
+        {
+
+            if (_lopHocPhanRepository.DeleteMonHoc(id))
+            {
+                UnitOfWork.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }

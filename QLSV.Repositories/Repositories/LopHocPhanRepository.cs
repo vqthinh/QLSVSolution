@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using QLSV.Abstract.Repositories;
 using QLSV.Entities.Models;
@@ -66,11 +67,51 @@ namespace QLSV.Repositories.Repositories
                     LopHocPhanId = id,
                     SinhVienId = sinhVienId,
                     DaNop = false,
-                    Deleted = false
+                    Deleted = false,
+                    DiemCc = 0,
+                    DiemCk1 = 0,
+                    DiemCk2 = 0,
+                    DiemGk = 0
                 });
                 return true;
             }
             catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateMonHoc(MonHoc monHoc)
+        {
+            try
+            {
+                if (_context.Entry(monHoc).State == EntityState.Detached)
+                {
+                    _context.Set<MonHoc>().Attach(monHoc);
+                }
+                _context.Entry(monHoc).State = EntityState.Modified;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public MonHoc GetMonHocById(int id)
+        {
+            return _context.Set<MonHoc>().FirstOrDefault(x => x.Id == id);
+        }
+
+        public bool DeleteMonHoc(int id)
+        {
+            try
+            {
+                var entity = GetMonHocById(id);
+                entity.Deleted = true;
+                return true;
+            }
+            catch
             {
                 return false;
             }

@@ -9,6 +9,12 @@ namespace QLSV.Abstract.Repositories
 
         bool AddMonHoc(MonHoc monHoc);
 
+        bool UpdateMonHoc(MonHoc monHoc);
+
+        bool DeleteMonHoc(int id);
+
+        MonHoc GetMonHocById(int id);
+
         IList<KyHocNamHoc> GetHocKies();
 
         IList<LopHocPhanSinhVien> GetDanhSachSinhVien(int id);

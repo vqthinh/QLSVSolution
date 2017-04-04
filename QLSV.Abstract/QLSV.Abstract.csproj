@@ -46,6 +46,7 @@
     <Compile Include="Repositories\IGiaoVienRepository.cs" />
     <Compile Include="Repositories\IKhoaRepository.cs" />
     <Compile Include="Repositories\ILopHocPhanRepository.cs" />
+    <Compile Include="Repositories\ILopHocPhanSinhVienRepository.cs" />
     <Compile Include="Repositories\ILopRepository.cs" />
     <Compile Include="Repositories\ISinhVienRepository.cs" />
     <Compile Include="Repositories\ITaiKhoanRepository.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Services\IGiaoVIenService.cs" />
     <Compile Include="Services\IKhoaService.cs" />
     <Compile Include="Services\ILopHocPhanService.cs" />
+    <Compile Include="Services\ILopHocPhanSinhVienService.cs" />
     <Compile Include="Services\ILopService.cs" />
     <Compile Include="Services\ISinhVienService.cs" />
     <Compile Include="Services\ITaiKhoanService.cs" />

@@ -45,6 +45,7 @@
     <Compile Include="Services\DiemRenLuyenService.cs" />
     <Compile Include="Services\GiaoVienService.cs" />
     <Compile Include="Services\LopHocPhanService.cs" />
+    <Compile Include="Services\LopHocPhanSinhVienService.cs" />
     <Compile Include="Services\LopService.cs" />
     <Compile Include="Services\SinhVienService.cs" />
     <Compile Include="Services\TaiKhoanService.cs" />

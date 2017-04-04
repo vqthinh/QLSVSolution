@@ -9,6 +9,8 @@ namespace QLSV.Abstract.Services
 
         bool AddMonHoc(MonHoc monHoc);
 
+        bool UpdateMonHoc(MonHoc monHoc);
+
         IList<KyHocNamHoc> GetHocKies();
 
         IList<LopHocPhanSinhVien> GetDanhSachSinhVien(int id);
@@ -16,5 +18,9 @@ namespace QLSV.Abstract.Services
         IList<SinhVien> GetSinhVienToAdd(int id);
 
         bool AddSinhVienToLopHp(int id, int[] keys);
+
+        MonHoc GetMonHocById(int id);
+
+        bool DeleteMonHoc(int id);
     }
 }

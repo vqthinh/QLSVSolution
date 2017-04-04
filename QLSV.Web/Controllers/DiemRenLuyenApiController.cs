@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -21,7 +22,7 @@ namespace QLSV.Web.Controllers
         [HttpGet]
         public HttpResponseMessage Get(DataSourceLoadOptions loadOptions)
         {
-            var obj = DataSourceLoader.Load(_diemRenLuyenService.GetAll(), loadOptions);
+            var obj = DataSourceLoader.Load(_diemRenLuyenService.GetAll().OrderBy(x=>x.SinhVien.Lop.Ten), loadOptions);
             return Request.CreateResponse(obj);
         }
 

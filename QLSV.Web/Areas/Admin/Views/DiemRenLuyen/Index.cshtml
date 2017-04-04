@@ -10,8 +10,13 @@
       .Columns(columns =>
       {
           columns.Add()
+             .DataField("SinhVien.MaSv")
+             .Caption("Mã Sinh Viên")
+             .AllowEditing(false)
+             .AllowFiltering(false);
+          columns.Add()
               .DataField("SinhVien.TenDayDu")
-              .Caption("Sinh Viên")
+              .Caption("Họ Tên")
               .AllowEditing(false)
               .AllowFiltering(false);
           columns.Add()
@@ -25,43 +30,53 @@
           columns.Add()
               .DataField("Hk1")
               .Caption("Kì 1")
-              .AllowFiltering(false);
+              .AllowFiltering(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(100).Message("Điểm không hợp lệ"));
           columns.Add()
               .DataField("Hk2")
               .Caption("Kì 2")
-              .AllowFiltering(false);
+              .AllowFiltering(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(100).Message("Điểm không hợp lệ"));
           columns.Add()
               .DataField("Hk3")
               .Caption("Kì 3")
-              .AllowFiltering(false);
+              .AllowFiltering(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(100).Message("Điểm không hợp lệ"));
           columns.Add()
               .DataField("Hk4")
               .Caption("Kì 4")
-              .AllowFiltering(false);
+              .AllowFiltering(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(100).Message("Điểm không hợp lệ"));
           columns.Add()
               .DataField("Hk5")
               .Caption("Kì 5")
-              .AllowFiltering(false);
+              .AllowFiltering(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(100).Message("Điểm không hợp lệ"));
           columns.Add()
               .DataField("Hk6")
               .Caption("Kì 6")
-              .AllowFiltering(false);
+              .AllowFiltering(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(100).Message("Điểm không hợp lệ"));
           columns.Add()
               .DataField("Hk7")
               .Caption("Kì 7")
-              .AllowFiltering(false);
+              .AllowFiltering(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(100).Message("Điểm không hợp lệ"));
           columns.Add()
               .DataField("Hk8")
               .Caption("Kì 8")
-              .AllowFiltering(false);
+              .AllowFiltering(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(100).Message("Điểm không hợp lệ"));
           columns.Add()
               .DataField("Hk9")
               .Caption("Kì 9")
-              .AllowFiltering(false);
+              .AllowFiltering(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(100).Message("Điểm không hợp lệ"));
           columns.Add()
               .DataField("Hk10")
               .Caption("Kì 10")
-              .AllowFiltering(false);
+              .AllowFiltering(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(100).Message("Điểm không hợp lệ"));
       })
       .HeaderFilter(headerFilter => headerFilter.Visible(true))
       .Paging(paging => paging.PageSize(5))

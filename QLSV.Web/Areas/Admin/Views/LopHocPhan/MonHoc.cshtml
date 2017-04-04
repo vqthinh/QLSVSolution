@@ -23,13 +23,15 @@
           pager.ShowInfo(true);
           pager.InfoText("Trang {0}({1} trang)");
       })
-      .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetMonHoc").InsertAction("PostMonHoc").Key("Id"))
+      .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetMonHoc")
+      .InsertAction("PostMonHoc").UpdateAction("PutMonHoc").DeleteAction("DeleteMonHoc").Key("Id"))
       .ShowBorders(true)
       .Editing(editing =>
       {
           editing.Mode(GridEditMode.Form);
           editing.AllowAdding(true);
           editing.AllowUpdating(true);
+          editing.AllowDeleting(true);
           editing.Texts(t =>
           {
               t.AddRow("Thêm mới");

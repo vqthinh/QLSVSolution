@@ -193,6 +193,7 @@
     <Compile Include="Controllers\GiaoVienApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LopHocPhanApiController.cs" />
+    <Compile Include="Controllers\LopHocPhanSinhVienApiController.cs" />
     <Compile Include="Controllers\SinhVienApiController.cs" />
     <Compile Include="Controllers\TaiKhoanController.cs" />
     <Compile Include="Global.asax.cs">

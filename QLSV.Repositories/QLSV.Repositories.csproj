@@ -59,19 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="chuc_nang.cs" />
-    <Compile Include="day_nha.cs" />
-    <Compile Include="giang_duong.cs" />
-    <Compile Include="giao_vien.cs" />
-    <Compile Include="khoa.cs" />
-    <Compile Include="ki_hoc.cs" />
-    <Compile Include="ki_hoc_nam_hoc.cs" />
-    <Compile Include="lop_hoc.cs" />
-    <Compile Include="lop_mon_hoc.cs" />
-    <Compile Include="lop_mon_hoc_sinh_vien.cs" />
-    <Compile Include="mon_hoc.cs" />
-    <Compile Include="mon_hoc_giang_duong.cs" />
-    <Compile Include="nam_hoc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QLSVDbContext.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
@@ -79,19 +66,11 @@
     <Compile Include="Repositories\GiaoVienRepository.cs" />
     <Compile Include="Repositories\KhoaRepository.cs" />
     <Compile Include="Repositories\LopHocPhanRepository.cs" />
+    <Compile Include="Repositories\LopHocPhanSinhVienRepository.cs" />
     <Compile Include="Repositories\LopRepository.cs" />
     <Compile Include="Repositories\SinhVienRepository.cs" />
     <Compile Include="Repositories\TaiKhoanRepository.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />
-    <Compile Include="sinh_vien.cs" />
-    <Compile Include="tai_khoan.cs" />
-    <Compile Include="tai_khoan_he_thong.cs" />
-    <Compile Include="tai_khoan_he_thong_vai_tro.cs" />
-    <Compile Include="tkb_lich_hoc_theo_ngay.cs" />
-    <Compile Include="tkb_thu.cs" />
-    <Compile Include="tkb_tiet.cs" />
-    <Compile Include="vai_tro.cs" />
-    <Compile Include="vai_tro_chuc_nang.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -15,7 +15,9 @@
               .Caption("")
               .CellTemplate(@<text>
                     <a href="LopHocPhan/DanhSach?id=<%= value %>">Xem danh sách</a>
-            </text>);
+            </text>)
+                 .ShowEditorAlways(false)
+                 .AllowEditing(false);
           columns.Add()
               .DataField("MaLopHp")
               .Caption("Mã Lớp");
@@ -77,7 +79,7 @@
               .Caption("Giáo Viên")
               .Lookup(lookup => lookup
                   .DataSource(d => d.WebApi().Controller("GiaoVienApi").LoadAction("Get").Key("Id"))
-                  .DisplayExpr("Ten")
+                  .DisplayExpr("TenDayDu")
                   .ValueExpr("Id")
               );
           columns.Add()

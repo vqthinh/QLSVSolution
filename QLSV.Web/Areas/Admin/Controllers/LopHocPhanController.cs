@@ -25,7 +25,8 @@ namespace QLSV.Web.Areas.Admin.Controllers
 
         public ActionResult DanhSach(int id)
         {
-            ViewBag.Menu = "Danh sách sinh viên lớp học phần";
+            var lopHp = _lopHocPhanService.GetById(id);
+            ViewBag.Menu = "Danh sách sinh viên lớp " + lopHp.Ten;
             ViewBag.MenuIcon = "fa-group";
             return View();
         }
