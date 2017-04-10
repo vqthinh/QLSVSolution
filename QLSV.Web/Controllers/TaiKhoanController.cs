@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Newtonsoft.Json;
 using QLSV.Abstract.Services;
+using QLSV.Common.Enum;
 using QLSV.Entities.Models;
 using QLSV.Services.Services;
 
@@ -26,6 +27,20 @@ namespace QLSV.Web.Controllers
         {
             return View();
         }
+
+        [ChildActionOnly]
+        public PartialViewResult _LoginInfo()
+        {
+            var oldCookie = HttpContext.Request.Cookies["UserInfo"];
+            if (oldCookie != null)
+            {
+                var loginString = HttpUtility.UrlDecode(oldCookie.Value);
+                var loginModel = JsonConvert.DeserializeObject<LoginModel>(loginString);
+                return PartialView(loginModel);
+            }
+            return PartialView();
+        }
+
         [HttpPost]
         public ActionResult DangNhap(TaiKhoan taiKhoan)
         {
@@ -35,12 +50,24 @@ namespace QLSV.Web.Controllers
                 FormsAuthentication.SetAuthCookie(taiKhoan.TenDangNhap, true);
                 var thongTin = _taiKhoanService.ThongTinDangNhap(taiKhoanDangNhap);
                 var stringThongTin = JsonConvert.SerializeObject(thongTin);
-                var cookie = new HttpCookie("UserInfo")
+                if (thongTin.LoaiNguoiDung == (int) UserType.GiaoVien)
                 {
-                    Value = HttpUtility.UrlEncode(stringThongTin)
-                };
-                HttpContext.Response.Cookies.Add(cookie);
-                return RedirectToAction("Index", "SinhVien",new {Area="Admin"});
+                    var cookie = new HttpCookie("GiaoVienInfo")
+                    {
+                        Value = HttpUtility.UrlEncode(stringThongTin)
+                    };
+                    HttpContext.Response.Cookies.Add(cookie);
+                    return RedirectToAction("Index", "GvHome", new {Area = "Gv"});
+                }
+                if (thongTin.LoaiNguoiDung == (int)UserType.GiaoVu)
+                {
+                    var cookie = new HttpCookie("UserInfo")
+                    {
+                        Value = HttpUtility.UrlEncode(stringThongTin)
+                    };
+                    HttpContext.Response.Cookies.Add(cookie);
+                    return RedirectToAction("Index", "SinhVien", new { Area = "Admin" });
+                }
             }
             TempData["Error"] = "Đăng nhập không thành công.";
             return View();
@@ -49,7 +76,18 @@ namespace QLSV.Web.Controllers
         public ActionResult DangXuat()
         {
             var responseCookie = Response.Cookies["UserInfo"];
-            if (responseCookie != null) responseCookie.Expires = DateTime.Now.AddDays(-1);
+            if (responseCookie != null)
+            {
+                responseCookie.Expires = DateTime.Now.AddDays(-1);
+            }
+            else
+            {
+                responseCookie = Response.Cookies["GiaoVienInfo"];
+                if (responseCookie != null)
+                {
+                    responseCookie.Expires = DateTime.Now.AddDays(-1);
+                }
+            }
             FormsAuthentication.SignOut();
             return RedirectToAction("DangNhap");
         }

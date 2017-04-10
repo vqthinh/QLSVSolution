@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Danh sách sinh viên lớp học phần";
+    Layout = "~/Areas/Gv/Views/Shared/_AdminLayout.cshtml";
+}
+@using DevExtreme.AspNet.Mvc
+
+@(Html.DevExtreme().DataGrid()
+      .ID("gridDanhSach")
+      .Columns(columns =>
+      {
+          columns.Add()
+              .DataField("SinhVien.MaSv")
+              .Caption("Mã Sinh Viên")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SinhVien.Lop.Ten")
+              .Caption("Lớp SH")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SinhVien.HoDem")
+              .Caption("Họ Đệm")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SinhVien.Ten")
+              .Caption("Tên")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SinhVien.NgaySinh")
+              .Caption("Ngày Sinh")
+              .DataType(GridColumnDataType.Date)
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("DiemCc")
+              .Caption("Điểm chuyên cần")
+              .DataType(GridColumnDataType.Number)
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+          columns.Add()
+              .DataField("DiemGk")
+              .Caption("Điểm giữa kì")
+              .DataType(GridColumnDataType.Number)
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+          columns.Add()
+              .DataField("DiemCk1")
+              .Caption("Điểm thực hành")
+              .DataType(GridColumnDataType.Number)
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+          columns.Add()
+              .DataField("DiemCk2")
+              .Caption("Điểm lý thuyết")
+              .DataType(GridColumnDataType.Number)
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+      })
+      .HeaderFilter(headerFilter => headerFilter.Visible(true))
+      .DataSource(d => d.WebApi().Controller("LopHocPhanSinhVienApi").LoadAction("GetDanhSachSinhVien").UpdateAction("Put").LoadParams(new { id = new JS("returnId") }).Key("Id"))
+      .ShowBorders(true)
+      .Editing(editing =>
+      {
+          editing.AllowUpdating(true);
+          editing.Mode(GridEditMode.Batch);
+          editing.Texts(t =>
+          {
+              t.AddRow("Thêm mới");
+              t.EditRow("Sửa");
+              t.DeleteRow("Xóa");
+              t.CancelAllChanges("Hủy bỏ thay đổi");
+              t.CancelRowChanges("Hủy bỏ");
+              t.ConfirmDeleteMessage("Bạn có muốn xóa không?");
+              t.SaveAllChanges("Lưu thay đổi");
+              t.SaveRowChanges("Xác nhận");
+          });
+      })
+      .ColumnAutoWidth(true)
+      .ColumnChooser(c =>
+      {
+          c.Enabled(true);
+          c.Title("Chọn cột hiển thị");
+          c.EmptyPanelText("Kéo cột vào để ẩn đi");
+      })
+)
+<script>
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+            function(m, key, value) {
+                vars[key] = value;
+            });
+        return vars;
+    }
+
+    returnId = function() {
+        return getUrlVars()["id"];
+    };
+</script>

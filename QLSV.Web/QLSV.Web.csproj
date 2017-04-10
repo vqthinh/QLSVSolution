@@ -188,6 +188,7 @@
     <Compile Include="Areas\Admin\Controllers\GiaoVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\LopHocPhanController.cs" />
     <Compile Include="Areas\Admin\Controllers\SinhVienController.cs" />
+    <Compile Include="Areas\Gv\Controllers\GvHomeController.cs" />
     <Compile Include="Areas\Gv\GvAreaRegistration.cs" />
     <Compile Include="Controllers\DiemRenLuyenApiController.cs" />
     <Compile Include="Controllers\GiaoVienApiController.cs" />
@@ -1585,6 +1586,11 @@
     <Content Include="Content\templates\admin\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\templates\admin\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Areas\Admin\Views\LopHocPhan\DanhSach.cshtml" />
+    <Content Include="Areas\Gv\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Areas\Gv\Views\Shared\_LeftMenu.cshtml" />
+    <Content Include="Areas\Gv\Views\Shared\_LoginInfo.cshtml" />
+    <Content Include="Areas\Gv\Views\GvHome\Index.cshtml" />
+    <Content Include="Areas\Gv\Views\GvHome\DanhSach.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1612,13 +1618,12 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\TaiKhoan\DangNhap.cshtml" />
+    <Content Include="Views\Shared\_LoginInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Gv\Controllers\" />
     <Folder Include="Areas\Gv\Models\" />
-    <Folder Include="Areas\Gv\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

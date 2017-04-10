@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Web;
 using System.Web.Http;
 using DevExtreme.AspNet.Data;
 using Newtonsoft.Json;
@@ -81,6 +82,22 @@ namespace QLSV.Web.Controllers
         {
             var obj = DataSourceLoader.Load(_lopHocPhanService.Where(x=>x.Deleted==false), loadOptions);
             return Request.CreateResponse(obj);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetLopHpByGiaoVienId(DataSourceLoadOptions loadOptions)
+        {
+            var oldCookie = HttpContext.Current.Request.Cookies["GiaoVienInfo"];
+            if (oldCookie != null)
+            {
+                var loginString = HttpUtility.UrlDecode(oldCookie.Value);
+                var loginModel = JsonConvert.DeserializeObject<LoginModel>(loginString);
+                var giaoVienId = loginModel.IdNguoiDung;
+                var obj = DataSourceLoader.Load(_lopHocPhanService.Where(x => x.Deleted == false &&
+                x.GiaoVienId==giaoVienId), loadOptions);
+                return Request.CreateResponse(obj);
+            }
+            return null;
         }
 
         [HttpPost]

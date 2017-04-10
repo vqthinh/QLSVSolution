@@ -1,10 +1,10 @@
-﻿@using DevExtreme.AspNet.Mvc
-
+﻿
 @{
-    ViewBag.Title = "Lớp Học Phần";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Lớp học phần";
+    Layout = "~/Areas/Gv/Views/Shared/_AdminLayout.cshtml";
 }
 
+@using DevExtreme.AspNet.Mvc
 
 @(Html.DevExtreme().DataGrid()
       .Columns(columns =>
@@ -14,7 +14,7 @@
               .AllowFiltering(false)
               .Caption("")
               .CellTemplate(@<text>
-                    <a href="LopHocPhan/DanhSach?id=<%= value %>">Xem danh sách</a>
+                <a href="DanhSach?id=<%= value %>">Xem danh sách</a>
             </text>)
                  .ShowEditorAlways(false)
                  .AllowEditing(false);
@@ -75,17 +75,9 @@
               .DataType(GridColumnDataType.Date)
               .Visible(false);
           columns.Add()
-              .DataField("GiaoVienId")
-              .Caption("Giáo Viên")
-              .Lookup(lookup => lookup
-                  .DataSource(d => d.WebApi().Controller("GiaoVienApi").LoadAction("Get").Key("Id"))
-                  .DisplayExpr("TenDayDu")
-                  .ValueExpr("Id")
-              );
-          columns.Add()
               .DataField("SoLuongChoPhep")
               .Caption("Số Lượng Cho Phép");
-      })        
+      })
       .HeaderFilter(headerFilter => headerFilter.Visible(true))
       .Paging(paging => paging.PageSize(5))
       .Pager(pager =>
@@ -93,15 +85,11 @@
           pager.ShowInfo(true);
           pager.InfoText("Trang {0}({1} trang)");
       })
-      .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("Get").Key("Id"))
+      .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetLopHpByGiaoVienId").Key("Id"))
       .ShowBorders(true)
       .OnEditorPreparing("onEditorPreparing")
       .Editing(editing =>
       {
-          editing.Mode(GridEditMode.Form);
-          editing.AllowAdding(true);
-          editing.AllowUpdating(true);
-          editing.AllowDeleting(true);
           editing.Texts(t =>
           {
               t.AddRow("Thêm mới");
@@ -138,5 +126,5 @@
             e.editorOptions.placeholder = "Chọn Giáo Viên";
         }
 
-    }   
+    }
 </script>
