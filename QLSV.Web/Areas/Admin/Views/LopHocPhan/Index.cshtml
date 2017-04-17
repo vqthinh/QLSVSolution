@@ -6,6 +6,7 @@
 }
 
 
+
 @(Html.DevExtreme().DataGrid()
       .Columns(columns =>
       {
@@ -14,10 +15,10 @@
               .AllowFiltering(false)
               .Caption("")
               .CellTemplate(@<text>
-                    <a href="LopHocPhan/DanhSach?id=<%= value %>">Xem danh sách</a>
-            </text>)
-                 .ShowEditorAlways(false)
-                 .AllowEditing(false);
+                                <a href="LopHocPhan/DanhSach?id=<%= value %>">Xem danh sách</a>
+                             </text>)
+              .ShowEditorAlways(false)
+              .AllowEditing(false);
           columns.Add()
               .DataField("MaLopHp")
               .Caption("Mã Lớp");
@@ -44,7 +45,8 @@
                   .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetHocKies").Key("Id"))
                   .DisplayExpr("Display")
                   .ValueExpr("Id")
-              );
+              )
+              .GroupIndex(0);
           columns.Add()
               .DataField("NgayHoc1")
               .Caption("Ngày Học 1")
@@ -121,7 +123,7 @@
           c.Title("Chọn cột hiển thị");
           c.EmptyPanelText("Kéo cột vào để ẩn đi");
       })
-)
+      .Scrolling(x=>x.ShowScrollbar(ScrollbarDisplayMode.Never	)))
 
 
 <script>

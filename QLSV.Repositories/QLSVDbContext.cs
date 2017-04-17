@@ -24,6 +24,7 @@ namespace QLSV.Repositories
         public DbSet<NamHoc> NamHocs { get; set; }
         public DbSet<KyHocNamHoc> KyHocNamHocs { get; set; }
         public DbSet<LopHocPhanSinhVien> LopHocPhanSinhViens { get; set; }
+        public DbSet<DiemDanh> DiemDanhs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -8259,7 +8259,7 @@ input[type=time],
 input[type=week],
 input[type=number],
 textarea {
-    border-radius: 0!important;
+    /*border-radius: 0!important;
     color: #858585;
     background-color: #FFF;
     border: 1px solid #D5D5D5;
@@ -8269,7 +8269,7 @@ textarea {
     -webkit-box-shadow: none!important;
     box-shadow: none!important;
     -webkit-transition-duration: .1s;
-    transition-duration: .1s
+    transition-duration: .1s*/
 }
 input[type=email]:hover,
 input[type=url]:hover,

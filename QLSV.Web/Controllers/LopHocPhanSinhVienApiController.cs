@@ -45,5 +45,12 @@ namespace QLSV.Web.Controllers
             var obj = DataSourceLoader.Load(_lopHocPhanService.GetDanhSachSinhVien(id), loadOptions);
             return Request.CreateResponse(obj);
         }
+
+        [HttpGet]
+        public HttpResponseMessage GetLopHocPhanBySinhVienId(DataSourceLoadOptions loadOptions, int id)
+        {
+            var obj = DataSourceLoader.Load(_lopHocPhanSinhVienService.Where(x=>x.SinhVienId==id), loadOptions);
+            return Request.CreateResponse(obj);
+        }
     }
 }

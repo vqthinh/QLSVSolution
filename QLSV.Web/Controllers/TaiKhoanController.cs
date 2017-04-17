@@ -68,6 +68,15 @@ namespace QLSV.Web.Controllers
                     HttpContext.Response.Cookies.Add(cookie);
                     return RedirectToAction("Index", "SinhVien", new { Area = "Admin" });
                 }
+                if (thongTin.LoaiNguoiDung == (int)UserType.SinhVien)
+                {
+                    var cookie = new HttpCookie("SinhVienInfo")
+                    {
+                        Value = HttpUtility.UrlEncode(stringThongTin)
+                    };
+                    HttpContext.Response.Cookies.Add(cookie);
+                    return RedirectToAction("Index", "SvHome", new { Area = "Sv" });
+                }
             }
             TempData["Error"] = "Đăng nhập không thành công.";
             return View();

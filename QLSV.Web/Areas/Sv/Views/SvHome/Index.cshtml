@@ -1,0 +1,121 @@
+﻿@using DevExtreme.AspNet.Mvc
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Sv/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script>
+    returnId = function () {
+        debugger;
+        return '@ViewBag.SinhVienId';
+    };
+</script>
+
+@(Html.DevExtreme().DataGrid()
+      .ID("gridDanhSach")
+      .Columns(columns =>
+      {
+          columns.Add()
+              .DataField("LopHocPhan.KyHocNamHoc.Display")
+              .Caption("Học Kỳ")
+              .Width(150)
+              .GroupIndex(0);
+          columns.Add()
+              .DataField("LopHocPhan.MaLopHp")
+              .Caption("Mã Lớp")
+              .Width(100);
+          columns.Add()
+              .DataField("LopHocPhan.MonHoc.Ten")
+              .Caption("Môn Học")
+              .AllowEditing(false);
+          columns.Add()
+             .DataField("LopHocPhan.SoTinChi")
+             .Caption("Tín Chỉ")
+             .AllowFiltering(false);
+          columns.Add()
+             .DataField("LopHocPhan.GiaoVien.TenDayDu")
+             .Caption("Giáo Viên");
+          columns.Add()
+              .CalculateCellValue(@<text>
+                                      function(data) {
+                                      var stringTkb =
+                                      'Thứ '+ data.LopHocPhan.NgayHoc1 + ': '
+                                      + data.LopHocPhan.TietHoc1;
+                                      if(data.LopHocPhan.NgayHoc2){
+                                      stringTkb += '; Thứ '+ data.LopHocPhan.NgayHoc2 + ': '
+                                      + data.LopHocPhan.TietHoc2;
+                                      }
+                                      return stringTkb;
+                                      }
+                                   </text>)
+              .Caption("Ngày Học");
+          columns.Add()
+             .Caption("Điểm thi")
+             .Columns(c =>
+             {
+                 c.Add()
+                     .Caption("Chuyên cần")
+                     .Width(120)
+                     .DataField("DiemCc")
+                     .AllowFiltering(false);
+                 c.Add()
+                     .Caption("Giữa kỳ")
+                     .Width(100)
+                     .DataField("DiemGk")
+                     .AllowFiltering(false);
+                 c.Add()
+                     .Caption("Cuối kỳ")
+                     .Width(200)
+                     .Columns(ck =>
+                     {
+                         ck.Add()
+                             .Caption("Thực hành")
+                             .DataField("DiemCk1")
+                             .AllowFiltering(false);
+                         ck.Add()
+                             .Caption("Lý thuyết")
+                             .DataField("DiemCk2")
+                             .AllowFiltering(false);
+                     });
+             })
+             .Width(150);
+          columns.Add()
+              .Caption("Điểm trung bình")
+              .DataField("DiemTb")
+              .AllowFiltering(false);
+          columns.Add()
+              .Caption("Xếp loại")
+              .DataField("XepLoai")
+              .AllowFiltering(false);
+      })
+      .HeaderFilter(headerFilter => headerFilter.Visible(true))
+      .DataSource(d => d.WebApi().Controller("LopHocPhanSinhVienApi")
+      .LoadAction("GetLopHocPhanBySinhVienId")
+      .LoadParams(new { id = new JS("returnId") }).Key("Id"))
+      .ShowBorders(true)
+      .Editing(editing =>
+      {
+          editing.Texts(t =>
+          {
+              t.AddRow("Thêm mới");
+              t.EditRow("Sửa");
+              t.DeleteRow("Xóa");
+              t.CancelAllChanges("Hủy bỏ thay đổi");
+              t.CancelRowChanges("Hủy bỏ");
+              t.ConfirmDeleteMessage("Bạn có muốn xóa không?");
+              t.SaveAllChanges("Lưu thay đổi");
+              t.SaveRowChanges("Xác nhận");
+          });
+      })
+      .ColumnAutoWidth(true)
+      .ColumnChooser(c =>
+      {
+          c.Enabled(true);
+          c.Title("Chọn cột hiển thị");
+          c.EmptyPanelText("Kéo cột vào để ẩn đi");
+      })
+)
+
+
+

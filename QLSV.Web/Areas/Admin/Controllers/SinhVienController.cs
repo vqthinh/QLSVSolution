@@ -10,7 +10,7 @@ using QLSV.Web.Models;
 
 namespace QLSV.Web.Areas.Admin.Controllers
 {
-    [CustomAuthorize]
+    //[CustomAuthorize]
     public class SinhVienController : Controller
     {
         private readonly ISinhVienService _sinhVienService;
@@ -19,12 +19,18 @@ namespace QLSV.Web.Areas.Admin.Controllers
         {
             _sinhVienService = new SinhVienService();
         }
+
         // GET: Admin/SinhVien
         public ActionResult Index()
         {
             ViewBag.Menu = "Quản lý Sinh viên";
             ViewBag.MenuIcon = "fa-graduation-cap";
             return View();
+        }
+
+        public ActionResult GeneratePdf()
+        {
+            return new Rotativa.ActionAsPdf("");
         }
 
         [ChildActionOnly]

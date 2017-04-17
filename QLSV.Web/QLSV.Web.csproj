@@ -99,6 +99,10 @@
       <HintPath>..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.6.4\lib\net40\Rotativa.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -187,9 +191,14 @@
     <Compile Include="Areas\Admin\Controllers\DiemRenLuyenController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaoVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\LopHocPhanController.cs" />
+    <Compile Include="Areas\Sv\Controllers\SvHomeController.cs" />
+    <Compile Include="Areas\Sv\SvAreaRegistration.cs" />
+    <Compile Include="Controllers\PdfController.cs" />
     <Compile Include="Areas\Admin\Controllers\SinhVienController.cs" />
+    <Compile Include="Areas\Gv\Controllers\DiemDanhController.cs" />
     <Compile Include="Areas\Gv\Controllers\GvHomeController.cs" />
     <Compile Include="Areas\Gv\GvAreaRegistration.cs" />
+    <Compile Include="Controllers\DiemDanhApiController.cs" />
     <Compile Include="Controllers\DiemRenLuyenApiController.cs" />
     <Compile Include="Controllers\GiaoVienApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1396,6 +1405,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1591,6 +1601,14 @@
     <Content Include="Areas\Gv\Views\Shared\_LoginInfo.cshtml" />
     <Content Include="Areas\Gv\Views\GvHome\Index.cshtml" />
     <Content Include="Areas\Gv\Views\GvHome\DanhSach.cshtml" />
+    <Content Include="Areas\Gv\Views\DiemDanh\DanhSach.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Views\Pdf\Index.cshtml" />
+    <Content Include="Areas\Sv\Views\web.config" />
+    <Content Include="Areas\Sv\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Areas\Sv\Views\Shared\_LeftMenu.cshtml" />
+    <Content Include="Areas\Sv\Views\Shared\_LoginInfo.cshtml" />
+    <Content Include="Areas\Sv\Views\SvHome\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1624,6 +1642,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Gv\Models\" />
+    <Folder Include="Areas\Sv\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -23,6 +23,7 @@
           columns.Add()
               .DataField("SinhVien.Ten")
               .Caption("Tên")
+              .SortOrder(0)
               .AllowEditing(false);
           columns.Add()
               .DataField("SinhVien.NgaySinh")
@@ -33,22 +34,37 @@
               .DataField("DiemCc")
               .Caption("Điểm chuyên cần")
               .DataType(GridColumnDataType.Number)
-              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+              .AllowEditing(false)
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"))
+              .AllowFiltering(false);
           columns.Add()
               .DataField("DiemGk")
               .Caption("Điểm giữa kì")
               .DataType(GridColumnDataType.Number)
-              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"))
+              .AllowFiltering(false);
           columns.Add()
               .DataField("DiemCk1")
               .Caption("Điểm thực hành")
               .DataType(GridColumnDataType.Number)
-              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"))
+              .AllowFiltering(false);
           columns.Add()
               .DataField("DiemCk2")
               .Caption("Điểm lý thuyết")
               .DataType(GridColumnDataType.Number)
-              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"))
+              .AllowFiltering(false);
+          columns.Add()
+             .DataField("DiemTb")
+             .Caption("Điểm trung bình")
+             .AllowFiltering(false)
+             .AllowEditing(false);
+          columns.Add()
+             .DataField("XepLoai")
+             .Caption("Xếp loại")
+             .AllowFiltering(false)
+             .AllowEditing(false);
       })
       .HeaderFilter(headerFilter => headerFilter.Visible(true))
       .DataSource(d => d.WebApi().Controller("LopHocPhanSinhVienApi").LoadAction("GetDanhSachSinhVien").UpdateAction("Put").LoadParams(new { id = new JS("returnId") }).Key("Id"))
@@ -76,7 +92,11 @@
           c.Title("Chọn cột hiển thị");
           c.EmptyPanelText("Kéo cột vào để ẩn đi");
       })
-)
+      )
+<div style="margin-top: 20px">
+    <button id="btnXetDiemDanh" onclick="btnXetClick()" class="btn btn-primary" style="float: left" data-toggle="modal" data-target="#myModal">Xét điểm chuyên cần</button>
+    <button id="btnXepLoai" onclick="btnXepLoaiClick()" class="btn btn-primary" style="float: left; margin-left: 10px" data-toggle="modal" data-target="#myModal">Xếp loại</button>
+</div>
 <script>
     function getUrlVars() {
         var vars = {};
@@ -90,4 +110,34 @@
     returnId = function() {
         return getUrlVars()["id"];
     };
+
+    function btnXetClick() {
+        $.ajax(
+           {
+               type: "POST", //HTTP POST Method
+               url: "/Gv/GvHome/XetDiemChuyenCan", // Controller/View
+               data: {
+                   id: returnId
+               },
+               success: function (data) {
+                   var dataGrid2 = $("#gridDanhSach").dxDataGrid("instance");
+                   dataGrid2.refresh();
+               }
+           });
+    }
+
+    function btnXepLoaiClick() {
+        $.ajax(
+           {
+               type: "POST", //HTTP POST Method
+               url: "/Gv/GvHome/XepLoai", // Controller/View
+               data: {
+                   id: returnId
+               },
+               success: function (data) {
+                   var dataGrid2 = $("#gridDanhSach").dxDataGrid("instance");
+                   dataGrid2.refresh();
+               }
+           });
+    }
 </script>

@@ -21,6 +21,10 @@ namespace QLSV.Entities.Models
         public decimal? DiemCk1 { get; set; }
         [Column("diem_ck2")]
         public decimal? DiemCk2 { get; set; }
+        [Column("diem_tb")]
+        public decimal? DiemTb { get; set; }
+        [Column("xep_loai")]
+        public string XepLoai { get; set; }
         [Column("deleted")]
         public bool? Deleted { get; set; }
 

@@ -5,6 +5,7 @@
 }
 
 
+
 @(Html.DevExtreme().DataGrid()
       .Columns(columns =>
       {
@@ -33,7 +34,8 @@
                   .DisplayExpr("Ten")
                   .ValueExpr("Id")
               )
-              .SetCellValue("loadKhoa");
+              .SetCellValue("loadKhoa")
+              .GroupIndex(0);
           columns.Add()
               .DataField("LopHocId")
               .Caption("Lớp")
@@ -41,7 +43,8 @@
                   .DataSource(d => d.WebApi().Controller("SinhVienApi").LoadAction("GetLop").LoadParams(new {id = new JS("khoaId")}).Key("Id"))
                   .DisplayExpr("Ten")
                   .ValueExpr("Id")
-              );
+              )
+              .GroupIndex(1);
           columns.Add()
               .Caption("Ngày Sinh")
               .DataField("NgaySinh")
@@ -111,6 +114,8 @@
               .Caption("Giới Tính")
               .Visible(false);
       })
+      .SearchPanel(x=>x.Visible(true).Placeholder("Tìm kiếm"))
+      .Scrolling(x=>x.ShowScrollbar(ScrollbarDisplayMode.Never))
       .HeaderFilter(headerFilter => headerFilter.Visible(true))
       .OnEditorPreparing("onEditorPreparing")
       .Paging(paging => paging.PageSize(5))
@@ -144,8 +149,7 @@
       {
           c.Enabled(true);
           c.Title("Chọn cột hiển thị");
-      })
-      )
+      }))
 
 <script>
     var id = 0;

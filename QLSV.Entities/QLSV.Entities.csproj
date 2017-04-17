@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IEntityBase.cs" />
+    <Compile Include="Models\DiemDanh.cs" />
     <Compile Include="Models\DiemRenLuyen.cs" />
     <Compile Include="Models\GiaoVien.cs" />
     <Compile Include="Models\HocKy.cs" />

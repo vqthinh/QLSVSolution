@@ -34,5 +34,12 @@ namespace QLSV.Entities.Models
         public int SoLuongChoPhep { get; set; }
         [Column("deleted")]
         public bool? Deleted { get; set; }
+
+        [ForeignKey("MonHocId")]
+        public virtual MonHoc MonHoc { get; set; }
+        [ForeignKey("GiaoVienId")]
+        public virtual GiaoVien GiaoVien { get; set; }
+        [ForeignKey("KyHocNamHocId")]
+        public virtual KyHocNamHoc KyHocNamHoc { get; set; }
     }
 }
