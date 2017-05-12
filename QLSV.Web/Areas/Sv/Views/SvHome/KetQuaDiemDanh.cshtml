@@ -1,0 +1,147 @@
+﻿@using DevExtreme.AspNet.Mvc
+
+@{
+    ViewBag.Title = "Kết quả điểm danh";
+    Layout = "~/Areas/Sv/Views/Shared/_AdminLayout.cshtml";
+}
+
+@(Html.DevExtreme().DataGrid()
+      .ID("gridDanhSach")
+      .Columns(columns =>
+      {
+          columns.Add()
+              .DataField("Id")
+              .AllowFiltering(false)
+              .Caption("Thao tác")
+              .CellTemplate(@<text>
+                                <a href="javascript:void(0)" onclick="xemChiTiet('<%= data.LopHocPhanSinhVien.LopHocPhan.Id%>')">Xem chi tiết</a>
+                             </text>);
+          columns.Add()
+              .DataField("LopHocPhanSinhVien.LopHocPhan.KyHocNamHoc.Display")
+              .Caption("Học kỳ")
+              .AllowEditing(false)
+              .GroupIndex(0);
+          columns.Add()
+              .DataField("LopHocPhanSinhVien.LopHocPhan.MaLopHp")
+              .Caption("Mã Lớp Học Phần")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("LopHocPhanSinhVien.LopHocPhan.Ten")
+              .Caption("Tên Lớp Học Phần")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SoBuoiDiemDanh")
+              .Caption("Số buổi điểm danh")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SoBuoiVang")
+              .Caption("Số buổi vắng")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("TiLeVang")
+              .Caption("Tỉ lệ vắng")
+              .CustomizeText("tiLeText")
+              .AllowEditing(false);
+      })
+      .HeaderFilter(headerFilter => headerFilter.Visible(true))
+      .DataSource(d => d.WebApi().Controller("DiemDanhApi").LoadAction("GetKetQuaDiemDanh"))
+      .ShowBorders(true)
+      .Editing(editing => { editing.AllowUpdating(false); })
+      .ColumnAutoWidth(true)
+      )
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Chi tiết điểm danh</h4>
+            </div>
+            <div class="modal-body">
+                @(Html.DevExtreme().DataGrid()
+                      .ID("gridChiTiet")
+                      .Columns(columns =>
+                      {
+                          columns.Add()
+                              .DataField("SinhVien.TenDayDu")
+                              .Caption("Sinh Viên")
+                              .AllowFiltering(false);
+                          columns.Add()
+                              .DataField("LopHocPhan.Ten")
+                              .Caption("Lớp Học Phần")
+                              .AllowFiltering(false)
+                              .GroupIndex(0);
+                          columns.Add()
+                              .DataField("NgayDiemDanh")
+                              .Caption("Ngày Điểm Danh")
+                              .AllowEditing(false)
+                              .CustomizeText("dateText")
+                              .AllowFiltering(false);
+                          columns.Add()
+                              .DataField("CoMat")
+                              .Caption("Có mặt")
+                              .CustomizeText("diemDanhText")
+                              .AllowFiltering(false);
+                      })
+                      .HeaderFilter(headerFilter => headerFilter.Visible(true))
+                      .DataSource(d => d.WebApi().Controller("DiemDanhApi").LoadAction("GetDiemDanhLop")
+                          .LoadParams(new {id = new JS("lopHocPhanId") }).Key("Id"))
+                      .ShowBorders(true)
+                      .ColumnAutoWidth(true)
+                      .Scrolling(x=>x.ShowScrollbar(ShowScrollbarMode.OnHover)))
+                <script>
+                    var id = 0;
+                    var lopHpId = 0;
+                    loadKhoa = function(rowData, value) {
+                        id = value;
+                        rowData.LopHocId = null;
+                        this.defaultSetCellValue(rowData, value);
+                    }
+                    khoaId = function() {
+                        return id;
+                    }
+                    lopHocPhanId = function() {
+                        return lopHpId;
+                    };
+                    onEditorPreparing = function(e) {
+                        if (e.parentType === "dataRow" && e.dataField === "KhoaId") {
+                            e.editorOptions.placeholder = "Chọn Khoa";
+                        } else if (e.parentType === "dataRow" && e.dataField === "LopHocId") {
+                            e.editorOptions.placeholder = "Chọn Lớp";
+                        } else if (e.parentType === "dataRow" && e.dataField === "QuocTich") {
+                            e.editorOptions.placeholder = "Chọn Quốc Tịch";
+                        } else if (e.parentType === "dataRow" && e.dataField === "KhoaHocId") {
+                            e.editorOptions.placeholder = "Chọn Khóa Học";
+                        }
+
+                    }
+                    getNationalites = function() {
+                        return nationalities;
+                    }
+                    xemChiTiet = function (value) {
+                        lopHpId = value;
+                        var dataGrid3 = $('#gridChiTiet').dxDataGrid('instance');
+                        dataGrid3.clearFilter();
+                        dataGrid3.refresh();
+                        $('#myModal').modal('show');
+                        var dataGrid4 = $('#gridChiTiet').dxDataGrid('instance');
+                        dataGrid4.refresh();
+                    }
+                </script>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .modal-dialog {
+         width: 800px !important;
+    }
+</style>
+

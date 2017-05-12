@@ -5,6 +5,7 @@ using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Http;
 using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Mvc;
 using Newtonsoft.Json;
 using QLSV.Abstract.Services;
 using QLSV.Entities.Models;
@@ -26,7 +27,6 @@ namespace QLSV.Web.Controllers
             var obj = DataSourceLoader.Load(_lopHocPhanService.GetMonHocs(), loadOptions);
             return Request.CreateResponse(obj);
         }
-
 
         [HttpPost]
         public HttpResponseMessage PostMonHoc(FormDataCollection form)

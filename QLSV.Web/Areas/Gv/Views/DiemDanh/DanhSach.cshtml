@@ -4,82 +4,60 @@
     ViewBag.Title = "Xem Điểm Danh";
     Layout = "/Areas/Gv/Views/Shared/_AdminLayout.cshtml";
 }
-<div class="row">
-    <form class="form-horizontal">
-        <div class="col-md-12">
-            <div class="form-group">
-                <div class="row">
-                    <label class="col-md-2 control-label">
-                        Chọn ngày xem điểm danh
-                    </label>
-                    <div class="col-md-2"> 
-                        @(Html.DevExtreme().DateBox()
-                              .ID("selected-date")
-                              .Value(DateTime.Now)
-                              .OnValueChanged("dateBox_valueChanged")
-                              )
-                    </div>
-                    <div class="col-md-8">
-                        <button class="btn btn-primary" id="btnCreate" style="float: right">
-                            Tạo danh sách điểm danh
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
+<h1 style="text-align: center">Danh sách điểm danh ngày @DateTime.Now.ToString("d")</h1>
 <div class="row">
     @(Html.DevExtreme().DataGrid()
-      .ID("gridDanhSach")
-      .Columns(columns =>
-      {
-          columns.Add()
-              .DataField("SinhVien.TenDayDu")
-              .Caption("Sinh Viên")
-              .AllowEditing(false);
-          columns.Add()
-             .DataField("SinhVien.Lop.Ten")
-             .Caption("Lớp")
-             .AllowEditing(false);
-          columns.Add()
-              .DataField("NgayDiemDanh")
-              .Caption("Ngày Điểm Danh")
-              .AllowEditing(false)
-              .DataType(GridColumnDataType.Date);
-          columns.Add()
-              .DataField("CoMat")
-              .Caption("Có mặt")
-              .DataType(GridColumnDataType.Boolean);
-      })
-      .HeaderFilter(headerFilter => headerFilter.Visible(true))
-      .DataSource(d => d.WebApi().Controller("DiemDanhApi").LoadAction("Get")
-      .LoadParams(new { id = new JS("returnId"), ngayDiemDanh = new JS("returnNgayDiemDanh") }).Key("Id"))
-      .ShowBorders(true)
-      .Editing(editing =>
-      {
-          editing.AllowUpdating(true);
-          editing.Mode(GridEditMode.Batch);
-          editing.Texts(t =>
+          .ID("gridDanhSach")
+          .Columns(columns =>
           {
-              t.AddRow("Thêm mới");
-              t.EditRow("Sửa");
-              t.DeleteRow("Xóa");
-              t.CancelAllChanges("Hủy bỏ thay đổi");
-              t.CancelRowChanges("Hủy bỏ");
-              t.ConfirmDeleteMessage("Bạn có muốn xóa không?");
-              t.SaveAllChanges("Lưu thay đổi");
-              t.SaveRowChanges("Xác nhận");
-          });
-      })
-      .ColumnAutoWidth(true)
-      .ColumnChooser(c =>
-      {
-          c.Enabled(true);
-          c.Title("Chọn cột hiển thị");
-          c.EmptyPanelText("Kéo cột vào để ẩn đi");
-      })
-    )
+              columns.Add()
+                  .DataField("SinhVien.TenDayDu")
+                  .Caption("Sinh Viên")
+                  .AllowEditing(false);
+              columns.Add()
+                  .DataField("SinhVien.Lop.Ten")
+                  .Caption("Lớp")
+                  .AllowEditing(false);
+              columns.Add()
+                  .DataField("NgayDiemDanh")
+                  .Caption("Ngày Điểm Danh")
+                  .AllowEditing(false)
+                  .CustomizeText("dateText")
+                  .AllowFiltering(false);
+              columns.Add()
+                  .DataField("CoMat")
+                  .Caption("Có mặt")
+                  .DataType(GridColumnDataType.Boolean)
+                  .AllowFiltering(false);
+          })
+          .HeaderFilter(headerFilter => headerFilter.Visible(true))
+          .DataSource(d => d.WebApi().Controller("DiemDanhApi").LoadAction("Get")
+              .LoadParams(new {id = new JS("returnId"), ngayDiemDanh = new JS("returnNgayDiemDanh")}).Key("Id"))
+          .ShowBorders(true)
+          .Editing(editing =>
+          {
+              editing.AllowUpdating(true);
+              editing.Mode(GridEditMode.Batch);
+              editing.Texts(t =>
+              {
+                  t.AddRow("Thêm mới");
+                  t.EditRow("Sửa");
+                  t.DeleteRow("Xóa");
+                  t.CancelAllChanges("Hủy bỏ thay đổi");
+                  t.CancelRowChanges("Hủy bỏ");
+                  t.ConfirmDeleteMessage("Bạn có muốn xóa không?");
+                  t.SaveAllChanges("Lưu thay đổi");
+                  t.SaveRowChanges("Xác nhận");
+              });
+          })
+          .ColumnAutoWidth(true)
+          .ColumnChooser(c =>
+          {
+              c.Enabled(true);
+              c.Title("Chọn cột hiển thị");
+              c.EmptyPanelText("Kéo cột vào để ẩn đi");
+          })
+          )
 
 </div>
 <script>
@@ -108,11 +86,34 @@
         return ngayDiemDanh;
     }
 
-    $('#btnCreate').click(function () {
-        debugger;
+    $.ajax({
+        type: "POST",
+        url: '@Url.Action("TaoDanhSach", "DiemDanh")',
+        data: JSON.stringify({
+            id: returnId(),
+            ngayDiemDanh: returnNgayDiemDanh()
+        }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function(res) {
+            var dataGrid;
+            if (res === "Exist") {
+                dataGrid = $("#gridDanhSach").dxDataGrid("instance");
+                dataGrid.refresh();
+            } else {
+                dataGrid = $("#gridDanhSach").dxDataGrid("instance");
+                dataGrid.refresh();
+            }
+        },
+        error: function() {
+            alert('Error');
+        }
+    });
+
+    $('#btnCreate').click(function() {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("TaoDanhSach","DiemDanh")',
+            url: '@Url.Action("TaoDanhSach", "DiemDanh")',
             data: JSON.stringify({
                 id: returnId(),
                 ngayDiemDanh: returnNgayDiemDanh()

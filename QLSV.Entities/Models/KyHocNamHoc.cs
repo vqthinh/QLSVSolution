@@ -21,6 +21,8 @@ namespace QLSV.Entities.Models
         public virtual HocKy HocKy { get; set; }
         [ForeignKey("NamHocId")]
         public virtual NamHoc NamHoc { get; set; }
+        [Column("activate")]
+        public bool? Activate { get; set; }
         [Column("deleted")]
         public bool? Deleted { get; set; }
         [NotMapped]

@@ -13,8 +13,15 @@
               .AllowFiltering(false)
               .Caption("Thao tác")
               .CellTemplate(@<text>
-                                <a href="@Url.Action("DanhSach")?id=<%= value %>">Xem danh sách</a> |
-                                <a href="@Url.Action("DanhSach","DiemDanh")?id=<%= value %>">Điểm danh</a>
+                                <% if(data.KyHocNamHoc.Activate === true) { %>
+                                <a href="@Url.Action("DanhSach")?id=<%= value %>">Xem danh sách</a>
+                                <% if((moment().weekday() === (data.NgayHoc1-1) || moment().weekday() === (data.NgayHoc2-1))) { %>
+                                |
+                                <a href="@Url.Action("DanhSach", "DiemDanh")?id=<%= value %>">Điểm danh</a>
+                                <% } %>
+                                <% } else { %>
+                                <span>Đã kết thúc</span>
+                                <% } %>
                              </text>)
               .ShowEditorAlways(false)
               .AllowEditing(false);
@@ -44,7 +51,8 @@
                   .DataSource(d => d.WebApi().Controller("LopHocPhanApi").LoadAction("GetHocKies").Key("Id"))
                   .DisplayExpr("Display")
                   .ValueExpr("Id")
-              );
+              )
+              .GroupIndex(1);
           columns.Add()
               .DataField("NgayHoc1")
               .Caption("Ngày Học 1")
@@ -70,11 +78,11 @@
           columns.Add()
               .DataField("NgayBatDau")
               .Caption("Ngày Bắt Đầu")
-              .DataType(GridColumnDataType.Date)
+              .CustomizeText("dateText")
               .Visible(false);
       })
       .HeaderFilter(headerFilter => headerFilter.Visible(true))
-      .Paging(paging => paging.PageSize(5))
+      .Paging(paging => paging.PageSize(10))
       .Pager(pager =>
       {
           pager.ShowInfo(true);

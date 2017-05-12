@@ -40,12 +40,12 @@ namespace QLSV.Repositories.Repositories
             _dataContext.SaveChanges();
         }
 
-        public IBaseRepository<TEntity> Repository<TEntity>() where TEntity : class,IEntityBase
+        public IBaseRepository<TEntity> Repository<TEntity>() where TEntity : class, IEntityBase
         {
             var entityType = typeof(TEntity).Name.ToUpper();
 
             if (_repositories.ContainsKey(entityType))
-                return (IBaseRepository<TEntity>)_repositories[entityType];
+                return (IBaseRepository<TEntity>) _repositories[entityType];
 
             object entityRepository = null;
 
@@ -78,11 +78,23 @@ namespace QLSV.Repositories.Repositories
                 case "DIEMDANH":
                     entityRepository = new DiemDanhRepository(_dataContext);
                     break;
+                case "DOTNHAPDIEM":
+                    entityRepository = new DotNhapDiemRepository(_dataContext);
+                    break;
+                case "LICHSU":
+                    entityRepository = new LichSuRepository(_dataContext);
+                    break;
+                case "GIAYTO":
+                    entityRepository = new GiayToRepository(_dataContext);
+                    break;
+                case "SINHVIENGIAYTO":
+                    entityRepository = new SinhVienGiayToRepository(_dataContext);
+                    break;
             }
 
             _repositories.Add(entityType, entityRepository);
 
-            return (IBaseRepository<TEntity>)_repositories[entityType];
+            return (IBaseRepository<TEntity>) _repositories[entityType];
         }
     }
 }

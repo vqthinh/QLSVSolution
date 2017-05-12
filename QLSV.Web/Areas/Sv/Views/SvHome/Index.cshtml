@@ -6,7 +6,7 @@
 }
 
 <script>
-    returnId = function () {
+    returnId = function() {
         debugger;
         return '@ViewBag.SinhVienId';
     };
@@ -30,12 +30,12 @@
               .Caption("Môn Học")
               .AllowEditing(false);
           columns.Add()
-             .DataField("LopHocPhan.SoTinChi")
-             .Caption("Tín Chỉ")
-             .AllowFiltering(false);
+              .DataField("LopHocPhan.SoTinChi")
+              .Caption("Tín Chỉ")
+              .AllowFiltering(false);
           columns.Add()
-             .DataField("LopHocPhan.GiaoVien.TenDayDu")
-             .Caption("Giáo Viên");
+              .DataField("LopHocPhan.GiaoVien.TenDayDu")
+              .Caption("Giáo Viên");
           columns.Add()
               .CalculateCellValue(@<text>
                                       function(data) {
@@ -51,35 +51,40 @@
                                    </text>)
               .Caption("Ngày Học");
           columns.Add()
-             .Caption("Điểm thi")
-             .Columns(c =>
-             {
-                 c.Add()
-                     .Caption("Chuyên cần")
-                     .Width(120)
-                     .DataField("DiemCc")
-                     .AllowFiltering(false);
-                 c.Add()
-                     .Caption("Giữa kỳ")
-                     .Width(100)
-                     .DataField("DiemGk")
-                     .AllowFiltering(false);
-                 c.Add()
-                     .Caption("Cuối kỳ")
-                     .Width(200)
-                     .Columns(ck =>
-                     {
-                         ck.Add()
-                             .Caption("Thực hành")
-                             .DataField("DiemCk1")
-                             .AllowFiltering(false);
-                         ck.Add()
-                             .Caption("Lý thuyết")
-                             .DataField("DiemCk2")
-                             .AllowFiltering(false);
-                     });
-             })
-             .Width(150);
+              .Caption("Điểm thi")
+              .Columns(c =>
+              {
+                  c.Add()
+                      .Caption("Chuyên cần")
+                      .Width(120)
+                      .DataField("DiemCc")
+                      .AllowFiltering(false);
+                  c.Add()
+                      .DataField("DiemTx")
+                      .Caption("Thường xuyên")
+                      .DataType(GridColumnDataType.Number)
+                      .AllowFiltering(false);
+                  c.Add()
+                      .DataField("DiemDk")
+                      .Caption("Định kỳ")
+                      .DataType(GridColumnDataType.Number)
+                      .AllowFiltering(false);
+                  c.Add()
+                      .Caption("Cuối kỳ")
+                      .Width(200)
+                      .Columns(ck =>
+                      {
+                          ck.Add()
+                              .Caption("Thực hành")
+                              .DataField("DiemCk1")
+                              .AllowFiltering(false);
+                          ck.Add()
+                              .Caption("Lý thuyết")
+                              .DataField("DiemCk2")
+                              .AllowFiltering(false);
+                      });
+              })
+              .Width(150);
           columns.Add()
               .Caption("Điểm trung bình")
               .DataField("DiemTb")
@@ -91,8 +96,8 @@
       })
       .HeaderFilter(headerFilter => headerFilter.Visible(true))
       .DataSource(d => d.WebApi().Controller("LopHocPhanSinhVienApi")
-      .LoadAction("GetLopHocPhanBySinhVienId")
-      .LoadParams(new { id = new JS("returnId") }).Key("Id"))
+          .LoadAction("GetLopHocPhanBySinhVienId")
+          .LoadParams(new {id = new JS("returnId")}).Key("Id"))
       .ShowBorders(true)
       .Editing(editing =>
       {
@@ -115,7 +120,7 @@
           c.Title("Chọn cột hiển thị");
           c.EmptyPanelText("Kéo cột vào để ẩn đi");
       })
-)
+      )
 
 
 

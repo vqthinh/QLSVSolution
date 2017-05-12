@@ -1,0 +1,59 @@
+﻿@using DevExtreme.AspNet.Mvc
+@{
+    ViewBag.Title = "Quản lý Lịch sử tác động";
+    Layout = "../Shared/_AdminLayout.cshtml";
+}
+
+
+@(Html.DevExtreme().DataGrid()
+      .Columns(columns =>
+      {
+          columns.Add()
+              .DataField("UserName")
+              .Caption("Tài khoản")
+              .GroupIndex(0);
+          columns.Add()
+              .DataField("ThoiGian")
+              .Caption("Thời gian")
+              .CustomizeText("dateTimeText")
+              .AllowFiltering(false);
+          columns.Add()
+              .DataField("MoTa")
+              .Caption("Mô tả")
+              .AllowFiltering(false);
+      })
+      .HeaderFilter(headerFilter => headerFilter.Visible(true))
+      .Paging(paging => paging.PageSize(100))
+      .Pager(pager =>
+      {
+          pager.ShowInfo(true);
+          pager.InfoText("Trang {0}({1} trang)");
+      })
+      .DataSource(d => d.WebApi().Controller("LichSuApi").LoadAction("Get").Key("Id"))
+      .ShowBorders(true)
+      .Editing(editing =>
+      {
+          editing.Mode(GridEditMode.Form);
+          editing.AllowAdding(false);
+          editing.AllowUpdating(false);
+          editing.AllowDeleting(false);
+          editing.Texts(t =>
+          {
+              t.AddRow("Thêm mới");
+              t.EditRow("Sửa");
+              t.DeleteRow("Xóa");
+              t.CancelAllChanges("Hủy bỏ thay đổi");
+              t.CancelRowChanges("Hủy bỏ");
+              t.ConfirmDeleteMessage("Bạn có muốn xóa không?");
+              t.SaveAllChanges("Lưu thay đổi");
+              t.SaveRowChanges("Xác nhận");
+          });
+      })
+      .ColumnAutoWidth(true)
+      .ColumnChooser(c =>
+      {
+          c.Enabled(true);
+          c.Title("Chọn cột hiển thị");
+          c.EmptyPanelText("Kéo cột vào để ẩn đi");
+      })
+     .Scrolling(x => x.ShowScrollbar(ShowScrollbarMode.Never)))

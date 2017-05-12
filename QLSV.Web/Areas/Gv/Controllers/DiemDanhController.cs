@@ -64,7 +64,7 @@ namespace QLSV.Web.Areas.Gv.Controllers
                 var diemDanh = new DiemDanh
                 {
                     SinhVienId = sv.SinhVienId,
-                    CoMat = false,
+                    CoMat = true,
                     Deleted = false,
                     GiaoVienId = giaoVien.IdNguoiDung.GetValueOrDefault(),
                     LopHocPhanId = id,

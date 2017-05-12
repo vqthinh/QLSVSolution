@@ -64,11 +64,15 @@
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\DiemDanhRepository.cs" />
     <Compile Include="Repositories\DiemRenLuyenRepository.cs" />
+    <Compile Include="Repositories\DotNhapDiemRepository.cs" />
     <Compile Include="Repositories\GiaoVienRepository.cs" />
+    <Compile Include="Repositories\GiayToRepository.cs" />
     <Compile Include="Repositories\KhoaRepository.cs" />
+    <Compile Include="Repositories\LichSuRepository.cs" />
     <Compile Include="Repositories\LopHocPhanRepository.cs" />
     <Compile Include="Repositories\LopHocPhanSinhVienRepository.cs" />
     <Compile Include="Repositories\LopRepository.cs" />
+    <Compile Include="Repositories\SinhVienGiayToRepository.cs" />
     <Compile Include="Repositories\SinhVienRepository.cs" />
     <Compile Include="Repositories\TaiKhoanRepository.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />

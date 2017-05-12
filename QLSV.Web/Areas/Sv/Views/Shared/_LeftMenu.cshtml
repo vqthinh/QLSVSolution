@@ -12,9 +12,25 @@
 
     <ul class="nav nav-list">
         <li>
-            <a href="@Url.Action("Index","GvHome")">
+            <a href="@Url.Action("Index","SvHome")">
                 <i class="menu-icon fa fa-group"></i>
-                <span class="menu-text"> Quản Lý Lớp Học Phần </span>
+                <span class="menu-text"> Danh Sách Lớp Học Phần </span>
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+        <li>
+            <a href="@Url.Action("YeuCauGiayTo","SvHome")">
+                <i class="menu-icon fa fa-file-text"></i>
+                <span class="menu-text"> Yêu Cầu Giấy Tờ </span>
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+        <li>
+            <a href="@Url.Action("KetQuaDiemDanh","SvHome")">
+                <i class="menu-icon fa fa-check-square-o"></i>
+                <span class="menu-text"> Kết Quả Điểm Danh </span>
             </a>
 
             <b class="arrow"></b>

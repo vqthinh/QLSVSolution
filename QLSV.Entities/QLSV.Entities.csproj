@@ -52,11 +52,15 @@
     <Compile Include="IEntityBase.cs" />
     <Compile Include="Models\DiemDanh.cs" />
     <Compile Include="Models\DiemRenLuyen.cs" />
+    <Compile Include="Models\DotNhapDiem.cs" />
     <Compile Include="Models\GiaoVien.cs" />
+    <Compile Include="Models\GiayTo.cs" />
     <Compile Include="Models\HocKy.cs" />
+    <Compile Include="Models\KetQuaDiemDanh.cs" />
     <Compile Include="Models\Khoa.cs" />
     <Compile Include="Models\KhoaHoc.cs" />
     <Compile Include="Models\KyHocNamHoc.cs" />
+    <Compile Include="Models\LichSu.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Lop.cs" />
     <Compile Include="Models\LopHocPhan.cs" />
@@ -64,6 +68,7 @@
     <Compile Include="Models\MonHoc.cs" />
     <Compile Include="Models\NamHoc.cs" />
     <Compile Include="Models\SinhVien.cs" />
+    <Compile Include="Models\SinhVienGiayTo.cs" />
     <Compile Include="Models\TaiKhoan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

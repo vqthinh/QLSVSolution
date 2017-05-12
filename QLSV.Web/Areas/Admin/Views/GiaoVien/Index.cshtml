@@ -20,7 +20,7 @@
           columns.Add()
               .Caption("Ngày Sinh")
               .DataField("NgaySinh")
-              .DataType(GridColumnDataType.Date);
+              .CustomizeText("dateText");
           columns.Add()
               .DataField("HoKhau")
               .Caption("Hộ Khẩu")
@@ -59,7 +59,7 @@
           columns.Add()
               .DataField("NgayCap")
               .Caption("Ngày Cấp")
-              .DataType(GridColumnDataType.Date)
+              .CustomizeText("dateText")
               .Visible(false);
           columns.Add()
               .DataField("NoiCap")

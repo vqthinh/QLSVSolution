@@ -55,3 +55,19 @@ var getUrlParameter = function getUrlParameter(sParam) {
         }
     }
 };
+
+dateTimeText = function (e) {
+    return moment(e.value).format('DD/MM/YYYY, HH:mm:ss');
+}
+
+dateText = function (e) {
+    return moment(e.value).format('DD/MM/YYYY');
+}
+
+tiLeText = function (e) {
+    return e.value*100 + "%";
+}
+
+diemDanhText = function (e) {
+    return (e.value) ? "Có mặt" : "Vắng";
+}

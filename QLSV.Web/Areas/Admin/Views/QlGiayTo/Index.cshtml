@@ -1,0 +1,84 @@
+﻿@using DevExtreme.AspNet.Mvc
+
+@{
+    ViewBag.Title = "Quản lý giấy tờ";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@(Html.DevExtreme().DataGrid()
+      .ID("gridDanhSach")
+      .Columns(columns =>
+      {
+          columns.Add()
+              .DataField("Id")
+              .AllowFiltering(false)
+              .Caption("Thao tác")
+              .CellTemplate(@<text>
+                                <% if(data.TinhTrang==="Đã xác nhận") { %>
+                                <a href="/Pdf/GeneratePdf?giayToId=<%= value %>">In giấy</a>
+                                <% } else { %>
+                                <a href="javascript:void(0)" onclick="xacNhan('<%= data.Id %>')">Xác nhận</a>
+                                <% } %>
+                             </text>)
+              .ShowEditorAlways(false)
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SinhVien.TenDayDu")
+              .Caption("Sinh Viên")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SinhVien.Lop.Ten")
+              .Caption("Lớp")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("GiayTo.TenLoai")
+              .Caption("Loại giấy tờ")
+              .AllowEditing(false)
+              .GroupIndex(0);
+          columns.Add()
+              .DataField("LyDo")
+              .Caption("Lý Do")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("NgayYeuCau")
+              .Caption("Ngày Yêu Cầu")
+              .CustomizeText("dateText")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SoLuong")
+              .Caption("Số Lượng")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("TinhTrang")
+              .Caption("Tình Trạng")
+              .AllowEditing(false)
+              .GroupIndex(1);
+      })
+      .HeaderFilter(headerFilter => headerFilter.Visible(true))
+      .DataSource(d => d.WebApi().Controller("GiayToApi").LoadAction("GetSinhVienGiayToAdmin").Key("Id"))
+      .ShowBorders(true)
+      .Editing(editing => { editing.AllowUpdating(false); })
+      .ColumnAutoWidth(true)
+      )
+
+<script>
+    xacNhan = function(id) {
+        $.ajax(
+        {
+            type: "POST", //HTTP POST Method
+            url: "/Admin/QlGiayTo/XacNhan", // Controller/View
+            data: { //Passing data
+                giayToId: id
+            },
+            success: function(data) {
+                if (data === "Ok") {
+                    var dataGrid2 = $("#gridDanhSach").dxDataGrid("instance");
+                    dataGrid2.refresh();
+                    alert("Xác nhận thành công");
+                } else {
+                    alert("Xác nhận không thành công");
+                }
+            }
+        });
+    }
+</script>

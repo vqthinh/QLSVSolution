@@ -15,8 +15,10 @@ namespace QLSV.Entities.Models
         public bool? DaNop { get; set; }
         [Column("diem_cc")]
         public decimal? DiemCc { get; set; }
-        [Column("diem_gk")]
-        public decimal? DiemGk { get; set; }
+        [Column("diem_dk")]
+        public decimal? DiemDk { get; set; }
+        [Column("diem_tx")]
+        public decimal? DiemTx { get; set; }
         [Column("diem_ck1")]
         public decimal? DiemCk1 { get; set; }
         [Column("diem_ck2")]

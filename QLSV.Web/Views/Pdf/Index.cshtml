@@ -1,7 +1,101 @@
-﻿
+﻿@model QLSV.Entities.Models.SinhVien
 @{
     ViewBag.Title = "View";
 }
 
-<h2>OK</h2>
-
+<div>
+    <div style="margin: auto">
+        <table style="width: 100%">
+            <tbody>
+            <tr>
+                <td>
+                    <div style="text-align: center;">
+                        <span style="font-family: times new roman, times, serif">
+                            <strong>TRƯỜNG CAO ĐẲNG NGHỀ ĐÀ NẴNG</strong>
+                        </span>
+                    </div>
+                    <div style="text-align: center;">
+                        <span style="font-family: times new roman, times, serif">
+                            <strong>XÁC NHẬN</strong>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <br>
+        </div>
+        <div>
+            <table style="width: 100%; padding-left: 50px; padding-right: 50px">
+                <tbody>
+                <tr>
+                    <td>
+                        <span style="font-family: times new roman, times, serif">Ông/Bà: @Model.TenDayDu</span>
+                    </td>
+                    <td>
+                        <span style="font-family: times new roman, times, serif">Giới tính: @(Model.GioiTinh?Html.Raw("Nam"):Html.Raw("Nữ"))</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <table style="width: 100%; padding-left: 50px; padding-right: 50px">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <span style="font-family: times new roman, times, serif">Số CMND: @Model.Cmnd</span>
+                        </td>
+                        <td>
+                            <span style="font-family: times new roman, times, serif">Sinh ngày: @Model.NgaySinh.GetValueOrDefault().ToString("d")</span>
+                        </td>
+                        <td>
+                            <span style="font-family: times new roman, times, serif">Tại: @Model.NoiSinh</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p>
+                    <span style="font-family: times new roman, times, serif">Hiện là sinh viên của nhà trường và có thông tin chi tiết sau:</span>
+                </p><ul>
+                    <li>
+                        <span style="font-family: times new roman, times, serif">Lớp: @Model.Lop.Ten thuộc khoa: @Model.Khoa.Ten</span>
+                    </li>
+                    <li>
+                        <span style="font-family: times new roman, times, serif">Mã sinh viên: @Model.MaSv</span>
+                    </li>
+                    <li>
+                        <span style="font-family: times new roman, times, serif">Khóa học : @Model.KhoaHoc.Ten</span>
+                    </li>
+                    <li>
+                        <span style="font-family: times new roman, times, serif">Hình thức&nbsp;đào tạo : Chính quy</span>
+                    </li>
+                </ul>
+                <table style="width: 100%; padding-left: 500px;">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <br>
+                        </td>
+                        <td>
+                            <p style="text-align: center">
+                                <span style="font-family: times new roman, times, serif">
+                                    <em>Đà Nẵng. ngày @DateTime.Now.Day tháng @DateTime.Now.Month năm @DateTime.Now.Year</em>
+                                </span>
+                            </p>
+                            <div style="text-align: center;">
+                                <span style="font-family: times new roman, times, serif">
+                                    <strong>TRƯỞNG PHÒNG ĐÀO TẠO</strong>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Web;
 using System.Web.Http;
 using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Mvc;
 using Newtonsoft.Json;
 using QLSV.Abstract.Services;
+using QLSV.Entities.Models;
 using QLSV.Services.Services;
 
 namespace QLSV.Web.Controllers
@@ -25,6 +27,23 @@ namespace QLSV.Web.Controllers
             return Request.CreateResponse(obj);
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetDiemDanhLop(DataSourceLoadOptions loadOptions, int id)
+        {
+            var oldCookie = HttpContext.Current.Request.Cookies["SinhVienInfo"];
+            if (oldCookie != null)
+            {
+                var loginString = HttpUtility.UrlDecode(oldCookie.Value);
+                var loginModel = JsonConvert.DeserializeObject<LoginModel>(loginString);
+                var sinhVienId = loginModel.IdNguoiDung;
+                var obj = DataSourceLoader
+               .Load(_diemDanhService
+               .Where(x => x.LopHocPhanId == id && x.SinhVienId == sinhVienId), loadOptions);
+                return Request.CreateResponse(obj);
+            }
+            return null;
+        }
+
         [HttpPut]
         public HttpResponseMessage Put(FormDataCollection form)
         {
@@ -40,6 +59,22 @@ namespace QLSV.Web.Controllers
             }
 
             return Request.CreateResponse("Không thể cập nhật");
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetKetQuaDiemDanh(DataSourceLoadOptions loadOptions)
+        {
+            var oldCookie = HttpContext.Current.Request.Cookies["SinhVienInfo"];
+            if (oldCookie != null)
+            {
+                var loginString = HttpUtility.UrlDecode(oldCookie.Value);
+                var loginModel = JsonConvert.DeserializeObject<LoginModel>(loginString);
+                var sinhVienId = loginModel.IdNguoiDung;
+                var obj = DataSourceLoader
+                .Load(_diemDanhService.GetKetQuaDiemDanhs(sinhVienId,null), loadOptions);
+                return Request.CreateResponse(obj);
+            }
+            return null;
         }
     }
 }

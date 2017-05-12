@@ -29,7 +29,7 @@
           columns.Add()
               .DataField("SinhVien.NgaySinh")
               .Caption("Ngày Sinh")
-              .DataType(GridColumnDataType.Date)
+              .CustomizeText("dateText")
               .AllowEditing(false);
           columns.Add()
               .DataField("DiemCc")
@@ -37,8 +37,13 @@
               .DataType(GridColumnDataType.Number)
               .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
           columns.Add()
-              .DataField("DiemGk")
-              .Caption("Điểm giữa kì")
+              .DataField("DiemTx")
+              .Caption("Điểm thường xuyên")
+              .DataType(GridColumnDataType.Number)
+              .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
+          columns.Add()
+              .DataField("DiemDk")
+              .Caption("Điểm định kỳ")
               .DataType(GridColumnDataType.Number)
               .ValidationRules(x => x.AddRange().Min(0).Max(10).Message("Điểm không hợp lệ"));
           columns.Add()
@@ -153,7 +158,7 @@
               columns.Add()
                   .Caption("Ngày Sinh")
                   .DataField("NgaySinh")
-                  .DataType(GridColumnDataType.Date);
+                  .CustomizeText("dateText");
               columns.Add()
                   .DataField("HoKhau")
                   .Caption("Hộ Khẩu")
@@ -192,7 +197,7 @@
               columns.Add()
                   .DataField("NgayCap")
                   .Caption("Ngày Cấp")
-                  .DataType(GridColumnDataType.Date)
+                  .CustomizeText("dateText")
                   .Visible(false);
               columns.Add()
                   .DataField("NoiCap")

@@ -37,7 +37,7 @@ namespace QLSV.Services.Services
             var listSvLopHp = Where(x => x.LopHocPhanId == id);
             foreach (var item in listSvLopHp)
             {
-                var diemTb = item.DiemGk * (decimal) 0.4 + ((item.DiemCk1 + item.DiemCk2) / 2) * (decimal) 0.6;
+                var diemTb = (item.DiemTx + item.DiemDk*2)/3 * (decimal) 0.4 + ((item.DiemCk1 + item.DiemCk2) / 2) * (decimal) 0.6;
                 item.DiemTb = diemTb;
                 item.XepLoai = Utility.XepLoai(diemTb.GetValueOrDefault());
                 Update(item);

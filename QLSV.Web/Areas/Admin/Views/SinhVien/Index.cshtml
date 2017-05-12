@@ -6,6 +6,7 @@
 
 
 
+
 @(Html.DevExtreme().DataGrid()
       .Columns(columns =>
       {
@@ -14,7 +15,8 @@
               .Caption("Mã SV");
           columns.Add()
               .DataField("HoDem")
-              .Caption("Họ Đệm");
+              .Caption("Họ Đệm")
+              .AllowFiltering(false);
           columns.Add()
               .DataField("Ten")
               .Caption("Tên");
@@ -48,7 +50,8 @@
           columns.Add()
               .Caption("Ngày Sinh")
               .DataField("NgaySinh")
-              .DataType(GridColumnDataType.Date);
+              .CustomizeText("dateText")
+              .AllowFiltering(false);
           columns.Add()
               .DataField("HoKhau")
               .Caption("Hộ Khẩu")
@@ -87,7 +90,7 @@
           columns.Add()
               .DataField("NgayCap")
               .Caption("Ngày Cấp")
-              .DataType(GridColumnDataType.Date)
+              .CustomizeText("dateText")
               .Visible(false);
           columns.Add()
               .DataField("NoiCap")
@@ -115,10 +118,10 @@
               .Visible(false);
       })
       .SearchPanel(x=>x.Visible(true).Placeholder("Tìm kiếm"))
-      .Scrolling(x=>x.ShowScrollbar(ScrollbarDisplayMode.Never))
+      .Scrolling(x=>x.ShowScrollbar(ShowScrollbarMode.Always	))
       .HeaderFilter(headerFilter => headerFilter.Visible(true))
       .OnEditorPreparing("onEditorPreparing")
-      .Paging(paging => paging.PageSize(5))
+      .Paging(paging => paging.PageSize(20))
       .Pager(pager =>
       {
           pager.ShowInfo(true);
@@ -149,7 +152,12 @@
       {
           c.Enabled(true);
           c.Title("Chọn cột hiển thị");
-      }))
+      })
+      .Grouping(x=>x.Texts(t =>
+      {
+          t.GroupContinuedMessage("");
+          t.GroupContinuesMessage("");
+      })))
 
 <script>
     var id = 0;

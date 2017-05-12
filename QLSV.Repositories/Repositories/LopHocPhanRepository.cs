@@ -71,7 +71,8 @@ namespace QLSV.Repositories.Repositories
                     DiemCc = 0,
                     DiemCk1 = 0,
                     DiemCk2 = 0,
-                    DiemGk = 0
+                    DiemDk = 0,
+                    DiemTx = 0
                 });
                 return true;
             }

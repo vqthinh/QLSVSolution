@@ -1,0 +1,90 @@
+﻿@using DevExtreme.AspNet.Mvc
+
+@{
+    ViewBag.Title = "Yêu cầu giấy tờ";
+    Layout = "~/Areas/Sv/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4 form-group">
+        <label style="font-size: 16px">Chọn loại giấy tờ</label>
+        @(Html.DevExtreme().SelectBox()
+          .ID("sbLoai")
+          .DataSource(d => d.WebApi().Controller("GiayToApi").LoadAction("Get").Key("Id"))
+          .DisplayExpr("TenLoai")
+          .ValueExpr("Id")
+        )
+    </div>   
+    <div class="col-md-4 form-group">
+        <label style="font-size: 16px">Nhập lý do</label>
+        <input id="txtLyDo" class="form-control"/>
+    </div>   
+    <div class="col-md-2 form-group">
+        <label style="font-size: 16px">Nhập số lượng</label>
+        <input id="txtSoLuong" class="form-control" />
+    </div>   
+    <div class="col-md-2">
+        <button class="btn btn-default" onclick="btnYeuCauClick()" style="margin-top: 26px">Gửi yêu cầu</button>
+    </div>  
+</div>
+<div class="row">
+    <h2>
+        Danh sách giấy tờ đã yêu cầu
+    </h2>
+    
+    @(Html.DevExtreme().DataGrid()
+      .ID("gridDanhSach")
+      .Columns(columns =>
+      {
+          columns.Add()
+              .DataField("GiayTo.TenLoai")
+              .Caption("Loại giấy tờ đã yêu cầu")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("LyDo")
+              .Caption("Lý Do")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("NgayYeuCau")
+              .Caption("Ngày Yêu Cầu")
+              .CustomizeText("dateText")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("SoLuong")
+              .Caption("Số Lượng")
+              .AllowEditing(false);
+          columns.Add()
+              .DataField("TinhTrang")
+              .Caption("Tình Trạng")
+              .AllowEditing(false);
+      })
+      .HeaderFilter(headerFilter => headerFilter.Visible(true))
+      .DataSource(d => d.WebApi().Controller("GiayToApi").LoadAction("GetSinhVienGiayTo").Key("Id"))
+      .ShowBorders(true)
+      .Editing(editing =>
+      {
+          editing.AllowUpdating(false);
+      })
+      .ColumnAutoWidth(true)
+    )
+</div>
+<script>
+    function btnYeuCauClick() {
+        var selectBox = $("#sbLoai").dxSelectBox("instance");
+        var selectBoxValue = selectBox.option('value');
+        $.ajax(
+        {
+            type: "POST", //HTTP POST Method
+            url: "/Sv/SvHome/YeuCauGiayTo", // Controller/View
+            data: {
+                giayToId: selectBoxValue,
+                lyDo: $('#txtLyDo').val(),
+                soLuong: $('#txtSoLuong').val()
+            },
+            success: function () {
+                var dataGrid = $("#gridDanhSach").dxDataGrid("instance");
+                dataGrid.refresh();
+            }
+        });
+    }
+</script>
